@@ -2,9 +2,12 @@
 
 import argparse
 import sys, os, time
+import urllib.request
 import webbrowser
 import yaml
 import requests
+from bs4 import BeautifulSoup
+
 
 
 def import_rosetta():
@@ -118,6 +121,24 @@ def open_searches_chrome(cities, parameters):
         print("No cities or states provided to search. Use --cities or --states arguments when running this script")
 
 
+def scrape_and_log_results(cities, parameters):
+    source = urllib.request.urlopen("https://dallas.craigslist.org/d/cars-trucks-by-owner/search/cto?query=miata").read()
+    clPage = BeautifulSoup(source, 'lxml')
+
+    results = clPage.find(id="search-results",class_='rows')
+
+    for result in results.findAll(class_="result-info"):
+        listTitle = result.find(class_='result-heading').a.text
+        listDate = result.find(class_='result-date').get('title')
+        listPrice = result.find(class_='result-price').text
+        if result.find(class_='result-hood'):
+            listLoc = result.find(class_='result-hood').text
+        postURL = result.find(class_='result-title hdrlnk').get('href')
+        postID = result.find(class_='result-title hdrlnk').get('data-id')
+        print("\n")
+
+
+
 def searcher():
 
     args = parse_args()     # take in CLI arguments
@@ -131,7 +152,9 @@ def searcher():
     c = list(set(c))        # remove duplicates
     ss = getSearchStrings("searches.txt")
 
-    open_searches_chrome(c, ss)
+    #open_searches_chrome(c, ss)
+
+    scrape_and_log_results("dallas", "abc")
 
 
 if __name__  ==  "__main__" :
