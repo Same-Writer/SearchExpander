@@ -1,0 +1,572 @@
+Alabama:
+  auburn : auburn
+  birmingham : bham
+  dothan : dothan
+  florence : shoals
+  muscle shoals : shoals
+  gadsden-anniston : gadsden
+  gadsden : gadsden
+  anniston : gadsden
+  huntsville : huntsville
+  decatur : huntsville
+  mobile : mobile
+  montgomery : montgomery
+  tuscaloosa : tuscaloosa
+
+Alaska:
+  anchorage : anchorage
+  mat-su : anchorage
+  fairbanks : fairbanks
+  kenai peninsula : kenai
+  southeast alaska : juneau
+
+Arizona:
+  flagstaff : flagstaff
+  sedona : flagstaff
+  mohave county: mohave
+  phoenix : phoenix
+  prescott : prescott
+  show low : showlow
+  sierra vista : sierravista
+  tucson : tucson
+  yuma : yuma
+
+Arkansas:
+  fayetteville : fayar
+  fort smith : fortsmith
+  jonesboro : jonesboro
+  little rock : littlerock
+  texarkana : texarkana
+
+California:
+  bakersfield : bakersfield
+  chico : chico
+  fresno / madera : fresno
+  madera : fresno
+  gold country : goldcountry
+  hanford-corcoran : hanford
+  hanford: hanford
+  corcoran: hanford
+  humboldt county : humboldt
+  imperial county : imperial
+  inland empire : inlandempire
+  los angeles : losangeles
+  mendocino county : mendocino
+  merced : merced
+  modesto : modesto
+  monterey bay : monterey
+  orange county : orangecounty
+  palm springs : palmsprings
+  redding : redding
+  sacramento : sacramento
+  san diego : sandiego
+  san francisco bay area : sanfrancisco
+  san francisco : sanfrancisco
+  san luis obispo : slo
+  santa barbara : santabarbara
+  santa maria : santamaria
+  siskiyou county : siskiyou
+  stockton : stockton
+  susanville : susanville
+  ventura county : ventura
+  visalia-tulare : visalia
+  visalia : visalia
+  tulare : visalia
+  yuba-sutter : yubasutter
+
+Colorado:
+  boulder : boulder
+  colorado springs : cosprings
+  denver : denver
+  eastern CO : eastco
+  fort collins / north CO : fortcollins
+  fort collins : fortcollins
+  north CO : fortcollins
+  high rockies : rockies
+  pueblo : pueblo
+  western slope : westslope
+
+Connecticut:
+  eastern CT : newlondon
+  hartford : hartford
+  new haven : newhaven
+  northwest CT : nwct
+
+Delaware:
+  delaware : delaware
+
+District of Columbia:
+  washington : washington
+
+Florida:
+  broward county : miami
+  daytona beach : daytona
+  florida keys : keys
+  fort lauderdale : fortlauderdale
+  ft myers / SW florida : fortmyers
+  ft myers : fortmyers
+  SW florida : fortmyers
+  gainesville : gainesville
+  heartland florida : cfl
+  jacksonville : jacksonville
+  lakeland : lakeland
+  miami / dade : miami
+  dade: miami
+  miami : miami
+  north central FL : lakecity
+  ocala : ocala
+  okaloosa / walton : okaloosa
+  okaloosa : okaloosa
+  walton : okaloosa
+  orlando : orlando
+  panama city : panamacity
+  pensacola : pensacola
+  sarasota-bradenton : sarasota
+  sarasota: sarasota
+  bradenton : sarasota
+  south florida : miami
+  space coast : spacecoast
+  st augustine : staugustine
+  tallahassee : tallahassee
+  tampa bay area : tampa
+  treasure coast : treasure
+  palm beach county : miami
+
+Georgia :
+  albany : albany
+  athens : athens
+  atlanta : atlanta
+  augusta : augusta
+  brunswick : brunswick
+  columbus : columbus
+  macon / warner robins : macon
+  macon : macon
+  warner robins : macon
+  northwest GA : nwga
+  savannah / hinesville : savannah
+  savannah: savannah
+  hinesville : savannah
+  statesboro : statesboro
+  valdosta : valdosta
+
+Hawaii:
+  hawaii : hawaii
+
+Idaho:
+  boise : boise
+  east idaho : eastidaho
+  lewiston / clarkston : lewiston
+  lewiston : lewiston
+  clarkston : lewiston
+  twin falls : twinfalls
+
+Illinois:
+  bloomington-normal : bn
+  champaign urbana : chambana
+  chicago : chicago
+  decatur : decatur
+  la salle co : lasalle
+  mattoon-charleston : mattoon
+  mattoon : mattoon
+  peoria : peoria
+  rockford : rockford
+  southern illinois : carbondale
+  springfield : springfield
+  western IL : quincy
+
+Indiana:
+  bloomington : bloomington
+  evansville : evansville
+  fort wayne : fortwayne
+  indianapolis : indianapolis
+  kokomo : kokomo
+  lafayette / west lafayette : tippecanoe
+  lafyetteIN : tippecanoe
+  muncie / anderson : muncie
+  muncie : muncie
+  anderson : muncie
+  richmond : richmond
+  south bend / michiana : southbend
+  south bend : southbend
+  michiana: southbend
+  terre haute : terrehaute
+
+Iowa:
+  ames : ames
+  cedar rapids : cedarrapids
+  des moines : desmoines
+  dubuque : dubuque
+  fort dodge : fortdodge
+  iowa city : iowacity
+  mason city : masoncity
+  quad cities : quadcities
+  sioux city : siouxcity
+  southeast IA : ottumwa
+  waterloo / cedar falls : waterloo
+  waterloo : waterloo
+  cedar falls : waterloo
+
+Kansas:
+  lawrence : lawrence
+  manhattan : ksu
+  northwest KS : nwks
+  salina : salina
+  southeast KS : seks
+  southwest KS : swks
+  topeka : topeka
+  wichita : wichita
+
+Kentucky:
+  bowling green : bgky
+  eastern kentucky : eastky
+  lexington : lexington
+  louisville : louisville
+  owensboro : owensboro
+  western KY : westky
+
+Louisiana:
+  baton rouge : batonrouge
+  central louisiana : cenla
+  houma : houma
+  lafayette : lafayette
+  lake charles : lakecharles
+  monroe : monroe
+  new orleans : neworleans
+  shreveport : shreveport
+
+Maine:
+  maine : maine
+
+Maryland:
+  annapolis : annapolis
+  baltimore : baltimore
+  eastern shore : easternshore
+  frederick : frederick
+  southern maryland : smd
+  western maryland : westmd
+
+Massachusetts:
+  boston : boston
+  cape cod / islands : capecod
+  cape cod : capecod
+  south coast : southcoast
+  western massachusetts : westernmass
+  worcester / central MA : worcester
+  worcester : worcester
+
+Michigan:
+  ann arbor : annarbor
+  battle creek : battlecreek
+  central michigan : centralmich
+  detroit metro : detroit
+  flint : flint
+  grand rapids : grandrapids
+  holland : holland
+  jackson : jackson
+  kalamazoo : kalamazoo
+  lansing : lansing
+  monroe : monroe
+  muskegon : muskegon
+  northern michigan : nmi
+  port huron : porthuron
+  saginaw-midland-baycity : saginaw
+  saginaw : saginaw
+  baycity: saginaw
+  southwest michigan : swmi
+  the thumb : thumb
+  upper peninsula : up
+
+#continue to split overlapping city keys below this point
+
+Minnesota:
+  bemidji : bemidji
+  brainerd : brainerd
+  duluth / superior : duluth
+  mankato : mankato
+  minneapolis / st paul : minneapolis
+  rochester : rochester
+  southwest MN : marshall
+  st cloud : stcloud
+
+Mississippi:
+  gulfport / biloxi : gulfport
+  hattiesburg : hattiesburg
+  jackson : jackson
+  meridian : meridian
+  north mississippi : northmiss
+  southwest MS : natchez
+
+Missouri:
+  columbia / jeff city : columbia
+  joplin : joplin
+  kansas city : kansascity
+  kirksville : kirksville
+  lake of the ozarks : loz
+  southeast missouri : semo
+  springfield : springfield
+  st joseph : stjoseph
+  st louis : stlouis
+
+Montana:
+  billings : billings
+  bozeman : bozeman
+  butte : butte
+  great falls : greatfalls
+  helena : helena
+  kalispell : kalispell
+  missoula : missoula
+  eastern montana : montana
+
+Nebraska:
+  grand island : grandisland
+  lincoln : lincoln
+  north platte : northplatte
+  omaha / council bluffs : omaha
+  scottsbluff / panhandle : scottsbluff
+
+Nevada:
+  elko : elko
+  las vegas : lasvegas
+  reno / tahoe : reno
+
+New Hampshire:
+  new hampshire : nh
+
+New Jersey:
+  central NJ : cnj
+  jersey shore : jerseyshore
+  north jersey : newjersey
+  south jersey : southjersey
+
+New Mexico:
+  albuquerque : albuquerque
+  clovis / portales : clovis
+  farmington : farmington
+  las cruces : lascruces
+  roswell / carlsbad : roswell
+  santa fe / taos : santafe
+
+New York:
+  albany : albany
+  binghamton : binghamton
+  buffalo : buffalo
+  catskills : catskills
+  chautauqua : chautauqua
+  elmira-corning : elmira
+  finger lakes : fingerlakes
+  glens falls : glensfalls
+  hudson valley : hudsonvalley
+  ithaca : ithaca
+  long island : longisland
+  new york city : nyc
+  oneonta : oneonta
+  plattsburgh-adirondacks : plattsburgh
+  potsdam-canton-massena : potsdam
+  rochester : rochester
+  syracuse : syracuse
+  twin tiers NY/PA : twintiers
+  utica-rome-oneida : utica
+  watertown : watertown
+
+North Carolina:
+  asheville : asheville
+  boone : boone
+  charlotte : charlotte
+  eastern NC : eastnc
+  fayetteville : fayetteville
+  greensboro : greensboro
+  hickory / lenoir : hickory
+  jacksonville : jacksonville
+  outer banks : outerbanks
+  raleigh / durham / CH : raleigh
+  wilmington : wilmington
+  winston-salem : winstonsalem
+
+North Dakota:
+  bismarck : bismarck
+  fargo / moorhead : fargo
+  grand forks : grandforks
+  north dakota : nd
+
+Ohio:
+  akron / canton : akroncanton
+  ashtabula : ashtabula
+  athens : athens
+  chillicothe : chillicothe
+  cincinnati : cincinnati
+  cleveland : cleveland
+  columbus : columbus
+  dayton / springfield : dayton
+  lima / findlay : lima
+  mansfield : mansfield
+  sandusky : sandusky
+  toledo : toledo
+  tuscarawas co : tuscarawas
+  youngstown : youngstown
+  zanesville / cambridge : zanesville
+
+Oklahoma:
+  lawton : lawton
+  northwest OK : enid
+  oklahoma city : oklahomacity
+  stillwater : stillwater
+  tulsa : tulsa
+
+Oregon:
+  bend : bend
+  corvallis/albany : corvallis
+  east oregon : eastoregon
+  eugene : eugene
+  klamath falls : klamath
+  medford-ashland : medford
+  oregon coast : oregoncoast
+  portland : portland
+  roseburg : roseburg
+  salem : salem
+
+Pennsylvania:
+  altoona-johnstown : altoona
+  cumberland valley : chambersburg
+  erie : erie
+  harrisburg : harrisburg
+  lancaster : lancaster
+  lehigh valley : allentown
+  meadville : meadville
+  philadelphia : philadelphia
+  pittsburgh : pittsburgh
+  poconos : poconos
+  reading : reading
+  scranton / wilkes-barre : scranton
+  state college : pennstate
+  williamsport : williamsport
+  york : york
+
+Rhode Island:
+  rhode island : providence
+
+South Carolina:
+  charleston : charleston
+  columbia : columbia
+  florence : florence
+  greenville / upstate : greenville
+  hilton head : hiltonhead
+  myrtle beach : myrtlebeach
+
+South Dakota:
+  northeast SD : nesd
+  pierre / central SD : csd
+  rapid city / west SD : rapidcity
+  sioux falls / SE SD : siouxfalls
+  south dakota : sd
+
+Tennessee:
+  chattanooga : chattanooga
+  clarksville : clarksville
+  cookeville : cookeville
+  jackson : jackson
+  knoxville : knoxville
+  memphis : memphis
+  nashville : nashville
+  tri-cities : tricities
+
+Texas:
+  abilene : abilene
+  amarillo : amarillo
+  austin : austin
+  #beaumont / port arthur
+  beaumont : beaumont
+  brownsville : brownsville
+  college station : collegestation
+  corpus christi : corpuschristi
+  #dallas / fort worth
+  dallas : dallas   #has 5 subregions
+  deep east texas : nacogdoches
+  #del rio / eagle pass
+  del rio : delrio
+  el paso : elpaso
+  galveston : galveston
+  houston : houston
+  #killeen / temple / ft hood
+  killeen : killeen
+  laredo : laredo
+  lubbock : lubbock
+  #mcallen / edinburg
+  mcallen : mcallen
+  #odessa / midland
+  odessa : odessa
+  san angelo : sanangelo
+  san antonio : sanangelo
+  san marcos : sanmarcos
+  southwest TX : bigbend
+  texoma : texoma
+  #tyler / east TX
+  tyler : easttexas
+  victoria : victoriatx
+  waco : waco
+  wichita falls : wichitafalls
+
+Utah:
+  logan : logan
+  ogden-clearfield : ogden
+  provo / orem : provo
+  salt lake city : slc
+  st george : stgeorge
+
+Vermont:
+  vermont : vermont
+
+Virginia:
+  charlottesville : charlottesville
+  danville : danville
+  fredericksburg : fredericksburg
+  hampton roads : hampton
+  harrisonburg : harrisonburg
+  lynchburg : lynchburg
+  new river valley : blacksburg
+  richmond : richmond
+  roanoke : roanoke
+  southwest VA : swva
+  winchester : winchester
+
+Washington:
+  bellingham : bellingham
+  kennewick-pasco-richland : kpr
+  moses lake : moseslake
+  olympic peninsula : olympic
+  pullman / moscow : pullman
+  seattle-tacoma : seattle
+  skagit / island / SJI : skagit
+  spokane / coeur d'alene : spokane
+  wenatchee : wenatchee
+  yakima : yakima
+
+West Virginia:
+  charleston : charleston
+  eastern panhandle : martinsburg
+  huntington-ashland : huntington
+  morgantown : morgantown
+  northern panhandle : wheeling
+  parkersburg-marietta : parkersburg
+  southern WV : swv
+  west virginia (old) : wv
+
+Wisconsin:
+  appleton-oshkosh-FDL : appleton
+  eau claire : eauclaire
+  green bay : greenbay
+  janesville : janesville
+  kenosha-racine : racine
+  la crosse : lacrosse
+  madison : madison
+  milwaukee : milwaukee
+  northern WI : northernwi
+  sheboygan : sheboygan
+  wausau : wausau
+
+Wyoming:
+  wyoming : wyoming
+
+Territories:
+  guam-micronesia : micronesia
+  puerto rico : puertorico
+  U.S. virgin islands : virgin
