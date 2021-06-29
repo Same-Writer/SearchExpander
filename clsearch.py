@@ -8,17 +8,13 @@ import yaml
 import requests
 from bs4 import BeautifulSoup
 from socket import error as SocketError
-import errno
-from datetime import datetime, timedelta
 
 sys.path.insert(1, 'etc/Emails/')
 from EmailClient import send_email
 
-
 def import_rosetta():
     with open("etc/rosetta.yaml", "r") as stream:
         try:
-            # print(yaml.safe_load(stream))
             return yaml.safe_load(stream)
         except yaml.YAMLError as exc:
             print(exc)
@@ -43,9 +39,7 @@ def get_citycodes_from_state(state):
     rs = import_rosetta()
     for key, value in rs.items():
         if key == state:
-            #print(key + " : " + str(value))
             for x, y in value.items():
-                #print(x + " : " + y)
                 citycodes.append(y)
 
     return citycodes
@@ -68,13 +62,10 @@ def get_citycodes_from_citylist(citylist):
 def openURL(url, OS="Linux"):
 
     if OS == "Mac":
-        # MacOS
         chrome_path = 'open -a /Applications/Google\ Chrome.app %s'
     elif OS == "Windows":
-        # Windows
         chrome_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
     elif OS == "Linux":
-        # Linux
         chrome_path = '/usr/bin/google-chrome %s'
     else:
         chrome_path = '/usr/bin/google-chrome %s'
@@ -167,9 +158,6 @@ def notify_if_new(new_results, old_results):
 
     for new in new_results:
 
-        #posttime = datetime.strptime((results.get('listDateTime')), "%Y-%m-%d %H:%M")
-        #print(str(new))
-
         if not new in old_results:
            print("Email Sent!!!")
            send_email(str(new), ['sam.reiter88@gmail.com'])
@@ -199,20 +187,16 @@ def searcher():
     c = list(set(c))        # remove duplicates
     ss = getSearchStrings("searches.txt")
 
-    #open_searches_chrome(c, ss)
-
     while True:
         newresults = scrape_and_log_results(c, ss)
 
         if not firstrun:
-            #print(newresults)
-            #print(oldresults)
             notify_if_new(newresults, oldresults)
 
         firstrun = False
         oldresults = newresults.copy()          #will doing this on repeat increase memory usage?
         time.sleep(sleeptime)
-        print('loop done!')
+
 
 if __name__  ==  "__main__" :
     searcher()

@@ -1,15 +1,21 @@
-- listDate: Mon 28 Jun 10:10:30 AM
-  listDateTime: 2021-06-28 10:10
+- listDate: Sat 26 Jun 09:01:08 AM
+  listDateTime: 2021-06-26 09:01
+  listPrice: $2,000
+  listTitle: 2019 MacBook Pro 16
+  postID: '7337349446'
+  postURL: https://corpuschristi.craigslist.org/sys/d/corpus-christi-2019-macbook-pro-16/7337349446.html
+- listDate: Wed 16 Jun 12:31:38 PM
+  listDateTime: 2021-06-16 12:31
+  listPrice: $900
+  listTitle: Selling Macbook Pro
+  postID: '7337557944'
+  postURL: https://corpuschristi.craigslist.org/sys/d/corpus-christi-selling-macbook-pro/7337557944.html
+- listDate: Sun 13 Jun 01:22:54 AM
+  listDateTime: 2021-06-13 01:22
   listPrice: $450
-  listTitle: MacBook Pro Early 2011 - High Sierra, Core i7, 120GB SSD, 8GB RAM
-  postID: '7337521630'
-  postURL: https://brownsville.craigslist.org/sys/d/brownsville-macbook-pro-early-high/7337521630.html
-- listDate: Sun 23 May 10:03:12 AM
-  listDateTime: 2021-05-23 10:03
-  listPrice: $400
-  listTitle: Macbook Pro and I-pad
-  postID: '7325838268'
-  postURL: https://brownsville.craigslist.org/sys/d/olmito-macbook-pro-and-pad/7325838268.html
+  listTitle: macbook pro
+  postID: '7335944116'
+  postURL: https://corpuschristi.craigslist.org/sys/d/kingsville-macbook-pro/7335944116.html
 - listDate: Mon 28 Jun 12:02:44 PM
   listDateTime: 2021-06-28 12:02
   listPrice: $225
@@ -88,24 +94,6 @@
   listTitle: Apple Macbook 12" Pro Tools 512gb ssd Ram 16G 1,4Ghz Perfect Condition
   postID: '7308898539'
   postURL: https://mcallen.craigslist.org/sys/d/san-juan-apple-macbook-12-pro-tools/7308898539.html
-- listDate: Sat 26 Jun 09:01:08 AM
-  listDateTime: 2021-06-26 09:01
-  listPrice: $2,000
-  listTitle: 2019 MacBook Pro 16
-  postID: '7337349446'
-  postURL: https://corpuschristi.craigslist.org/sys/d/corpus-christi-2019-macbook-pro-16/7337349446.html
-- listDate: Wed 16 Jun 12:31:38 PM
-  listDateTime: 2021-06-16 12:31
-  listPrice: $900
-  listTitle: Selling Macbook Pro
-  postID: '7337557944'
-  postURL: https://corpuschristi.craigslist.org/sys/d/corpus-christi-selling-macbook-pro/7337557944.html
-- listDate: Sun 13 Jun 01:22:54 AM
-  listDateTime: 2021-06-13 01:22
-  listPrice: $450
-  listTitle: macbook pro
-  postID: '7335944116'
-  postURL: https://corpuschristi.craigslist.org/sys/d/kingsville-macbook-pro/7335944116.html
 - listDate: Mon 28 Jun 06:50:31 PM
   listDateTime: 2021-06-28 18:50
   listPrice: $600
@@ -292,6 +280,18 @@
   listTitle: 13" Retina Macbook Pro (early 2015)--2.7GHz i5, 8GB, 128GB
   postID: '7321694343'
   postURL: https://sanantonio.craigslist.org/sys/d/san-antonio-13-retina-macbook-pro-early/7321694343.html
+- listDate: Mon 28 Jun 10:10:30 AM
+  listDateTime: 2021-06-28 10:10
+  listPrice: $450
+  listTitle: MacBook Pro Early 2011 - High Sierra, Core i7, 120GB SSD, 8GB RAM
+  postID: '7337521630'
+  postURL: https://brownsville.craigslist.org/sys/d/brownsville-macbook-pro-early-high/7337521630.html
+- listDate: Sun 23 May 10:03:12 AM
+  listDateTime: 2021-05-23 10:03
+  listPrice: $400
+  listTitle: Macbook Pro and I-pad
+  postID: '7325838268'
+  postURL: https://brownsville.craigslist.org/sys/d/olmito-macbook-pro-and-pad/7325838268.html
 - listDate: Sat 12 Jun 05:33:59 PM
   listDateTime: 2021-06-12 17:33
   listPrice: $700
@@ -304,6 +304,12 @@
   listTitle: 2019 MacBook Pro
   postID: '7335012131'
   postURL: https://sanmarcos.craigslist.org/sys/d/san-marcos-2019-macbook-pro/7335012131.html
+- listDate: Mon 28 Jun 08:04:09 PM
+  listDateTime: 2021-06-28 20:04
+  listPrice: $420
+  listTitle: MacBook Pro
+  postID: '7343577394'
+  postURL: https://dallas.craigslist.org/ftw/sys/d/haltom-city-macbook-pro/7343577394.html
 - listDate: Mon 28 Jun 06:10:52 PM
   listDateTime: 2021-06-28 18:10
   listPrice: $30
@@ -961,18 +967,36 @@
   listTitle: MacBook or nice IMac Trade for Yamaha Digital Keyboard
   postID: '7335375804'
   postURL: https://killeen.craigslist.org/sys/d/belton-macbook-or-nice-imac-trade-for/7335375804.html
-- listDate: Mon 28 Jun 02:53:16 PM
-  listDateTime: 2021-06-28 14:53
-  listPrice: $500
-  listTitle: apple MacBook Pro 16 inch
-  postID: '7343427654'
-  postURL: https://collegestation.craigslist.org/sys/d/dallas-apple-macbook-pro-16-inch/7343427654.html
-- listDate: Sat 19 Jun 04:00:37 PM
-  listDateTime: 2021-06-19 16:00
+- listDate: Fri 11 Jun 02:43:11 PM
+  listDateTime: 2021-06-11 14:43
+  listPrice: $200
+  listTitle: Macbook Pro
+  postID: '7334215634'
+  postURL: https://odessa.craigslist.org/sys/d/midland-macbook-pro/7334215634.html
+- listDate: Fri 11 Jun 10:00:37 AM
+  listDateTime: 2021-06-11 10:00
+  listPrice: $1,000
+  listTitle: IMac Retina 4k, 21.5-inch
+  postID: '7335083668'
+  postURL: https://odessa.craigslist.org/sys/d/midland-imac-retina-4k-215-inch/7335083668.html
+- listDate: Fri 04 Jun 10:39:43 AM
+  listDateTime: 2021-06-04 10:39
   listPrice: $1,100
-  listTitle: 13-inch MacBook Pro - Space Gray
-  postID: '7339154560'
-  postURL: https://collegestation.craigslist.org/sys/d/bryan-13-inch-macbook-pro-space-gray/7339154560.html
+  listTitle: "MacBook Pro 2016 15\u201D W/TouchBar - 512GB SSD | Radeon Pro 455"
+  postID: '7331641808'
+  postURL: https://lubbock.craigslist.org/sys/d/lubbock-macbook-pro-touchbar-512gb-ssd/7331641808.html
+- listDate: Wed 26 May 04:26:25 PM
+  listDateTime: 2021-05-26 16:26
+  listPrice: $500
+  listTitle: MacBook pro
+  postID: '7327545602'
+  postURL: https://lubbock.craigslist.org/sys/d/lubbock-macbook-pro/7327545602.html
+- listDate: Sat 22 May 08:58:16 AM
+  listDateTime: 2021-05-22 08:58
+  listPrice: $900
+  listTitle: iMac - 27 inch (5K Retina), 2 TB Fusion Drive - 16 Gb Ram, 3.3 Ghz
+  postID: '7325357134'
+  postURL: https://lubbock.craigslist.org/sys/d/lubbock-imac-27-inch-5k-retina-tb/7325357134.html
 - listDate: Mon 28 Jun 06:38:43 PM
   listDateTime: 2021-06-28 18:38
   listPrice: $450
@@ -1479,36 +1503,18 @@
   listTitle: 13" Retina Macbook Pro (early 2015)--2.7GHz i5, 8GB, 128GB
   postID: '7321697883'
   postURL: https://austin.craigslist.org/sys/d/san-antonio-13-retina-macbook-pro-early/7321697883.html
-- listDate: Fri 04 Jun 10:39:43 AM
-  listDateTime: 2021-06-04 10:39
-  listPrice: $1,100
-  listTitle: "MacBook Pro 2016 15\u201D W/TouchBar - 512GB SSD | Radeon Pro 455"
-  postID: '7331641808'
-  postURL: https://lubbock.craigslist.org/sys/d/lubbock-macbook-pro-touchbar-512gb-ssd/7331641808.html
-- listDate: Wed 26 May 04:26:25 PM
-  listDateTime: 2021-05-26 16:26
+- listDate: Mon 28 Jun 02:53:16 PM
+  listDateTime: 2021-06-28 14:53
   listPrice: $500
-  listTitle: MacBook pro
-  postID: '7327545602'
-  postURL: https://lubbock.craigslist.org/sys/d/lubbock-macbook-pro/7327545602.html
-- listDate: Sat 22 May 08:58:16 AM
-  listDateTime: 2021-05-22 08:58
-  listPrice: $900
-  listTitle: iMac - 27 inch (5K Retina), 2 TB Fusion Drive - 16 Gb Ram, 3.3 Ghz
-  postID: '7325357134'
-  postURL: https://lubbock.craigslist.org/sys/d/lubbock-imac-27-inch-5k-retina-tb/7325357134.html
-- listDate: Fri 11 Jun 02:43:11 PM
-  listDateTime: 2021-06-11 14:43
-  listPrice: $200
-  listTitle: Macbook Pro
-  postID: '7334215634'
-  postURL: https://odessa.craigslist.org/sys/d/midland-macbook-pro/7334215634.html
-- listDate: Fri 11 Jun 10:00:37 AM
-  listDateTime: 2021-06-11 10:00
-  listPrice: $1,000
-  listTitle: IMac Retina 4k, 21.5-inch
-  postID: '7335083668'
-  postURL: https://odessa.craigslist.org/sys/d/midland-imac-retina-4k-215-inch/7335083668.html
+  listTitle: apple MacBook Pro 16 inch
+  postID: '7343427654'
+  postURL: https://collegestation.craigslist.org/sys/d/dallas-apple-macbook-pro-16-inch/7343427654.html
+- listDate: Sat 19 Jun 04:00:37 PM
+  listDateTime: 2021-06-19 16:00
+  listPrice: $1,100
+  listTitle: 13-inch MacBook Pro - Space Gray
+  postID: '7339154560'
+  postURL: https://collegestation.craigslist.org/sys/d/bryan-13-inch-macbook-pro-space-gray/7339154560.html
 - listDate: Mon 28 Jun 02:35:57 PM
   listDateTime: 2021-06-28 14:35
   listPrice: $400
@@ -1629,6 +1635,24 @@
   listTitle: Macbook Pro Retina (2880 x 1800)
   postID: '7343483659'
   postURL: https://roswell.craigslist.org/sys/d/farmington-macbook-pro-retina-2880-1800/7343483659.html
+- listDate: Sat 26 Jun 05:11:30 PM
+  listDateTime: 2021-06-26 17:11
+  listPrice: $600
+  listTitle: '*Apple 15 inch MacBook Pro_#'
+  postID: '7342599558'
+  postURL: https://texarkana.craigslist.org/sys/d/texarkana-apple-15-inch-macbook-pro/7342599558.html
+- listDate: Tue 18 May 05:52:01 PM
+  listDateTime: 2021-05-18 17:52
+  listPrice: $600
+  listTitle: Mid-'19, 2TB SSD, Intel i9 2.40GHz, 32GB RAM
+  postID: '7323610892'
+  postURL: https://texarkana.craigslist.org/sys/d/little-rock-mid-19-2tb-ssd-intel-i9/7323610892.html
+- listDate: Mon 28 Jun 07:29:40 PM
+  listDateTime: 2021-06-28 19:29
+  listPrice: $300
+  listTitle: Laptop Apple Macbook PRO EXCELLENT CONDITION
+  postID: '7342135666'
+  postURL: https://houston.craigslist.org/sys/d/houston-laptop-apple-macbook-pro/7342135666.html
 - listDate: Mon 28 Jun 12:33:55 PM
   listDateTime: 2021-06-28 12:33
   listPrice: $400
@@ -1917,18 +1941,6 @@
   listTitle: 2017 Macbook pro
   postID: '7322411816'
   postURL: https://elpaso.craigslist.org/sys/d/el-paso-2017-macbook-pro/7322411816.html
-- listDate: Sat 26 Jun 05:11:30 PM
-  listDateTime: 2021-06-26 17:11
-  listPrice: $600
-  listTitle: '*Apple 15 inch MacBook Pro_#'
-  postID: '7342599558'
-  postURL: https://texarkana.craigslist.org/sys/d/texarkana-apple-15-inch-macbook-pro/7342599558.html
-- listDate: Tue 18 May 05:52:01 PM
-  listDateTime: 2021-05-18 17:52
-  listPrice: $600
-  listTitle: Mid-'19, 2TB SSD, Intel i9 2.40GHz, 32GB RAM
-  postID: '7323610892'
-  postURL: https://texarkana.craigslist.org/sys/d/little-rock-mid-19-2tb-ssd-intel-i9/7323610892.html
 - listDate: Fri 18 Jun 08:54:51 PM
   listDateTime: 2021-06-18 20:54
   listPrice: $380
@@ -1983,12 +1995,6 @@
   listTitle: Apple A1212 Macbook Pro
   postID: '7340209741'
   postURL: https://albuquerque.craigslist.org/sys/d/corrales-apple-a1212-macbook-pro/7340209741.html
-- listDate: Thu 24 Jun 02:24:26 PM
-  listDateTime: 2021-06-24 14:24
-  listPrice: $580
-  listTitle: MacBook Pro 13 inch Retina
-  postID: '7338751703'
-  postURL: https://albuquerque.craigslist.org/sys/d/albuquerque-macbook-pro-13-inch-retina/7338751703.html
 - listDate: Mon 14 Jun 03:46:51 PM
   listDateTime: 2021-06-14 15:46
   listPrice: $415
