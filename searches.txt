@@ -1,2 +1,1 @@
-https://dallas.craigslist.org/d/cars-trucks/search/cta?query=mr2
-https://dallas.craigslist.org/d/cars-trucks-by-owner/search/cto?query=miata
+https://dallas.craigslist.org/d/computers-by-owner/search/sys?sort=date&query=macbook%20pro

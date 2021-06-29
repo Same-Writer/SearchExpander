@@ -1,0 +1,12 @@
+SMTP Client:
+  address : clnotifier1278@gmail.com
+  password : Ha$HloCk1278
+
+Email Recipients:
+  email : sam.reiter88@gmail.com
+
+Search Settings:
+  rosetta path : etc/rosetta.yaml
+  log results: True
+  results path : results/results.yaml
+  searches path: searches.txt

@@ -7,6 +7,8 @@ import webbrowser
 import yaml
 import requests
 from bs4 import BeautifulSoup
+from socket import error as SocketError
+import errno
 from datetime import datetime, timedelta
 
 sys.path.insert(1, 'etc/Emails/')
@@ -126,9 +128,19 @@ def open_searches_chrome(cities, parameters):
 
 def scrape_and_log_results(cities, parameters):
     listings = []
+
     for string in parameters:
         for city in cities:
-            source = urllib.request.urlopen("https://" + city + ".craigslist.org" + string).read()
+
+            while True:
+                try:
+                    source = urllib.request.urlopen("https://" + city + ".craigslist.org" + string).read()
+                except SocketError as e:
+                    time.sleep(1)
+                    print("SocketError: " + str(e))
+                    continue
+                break
+
             clPage = BeautifulSoup(source, 'lxml')
 
             results = clPage.find(id="search-results",class_='rows')
@@ -146,23 +158,29 @@ def scrape_and_log_results(cities, parameters):
                     listings.append(data)
     #print(*listings, sep="\n")
 
-    with open('results.yaml', 'w') as outfile:
+    with open('results/results.yaml', 'w') as outfile:
         yaml.dump(listings, outfile, default_flow_style=False)
 
     return listings
 
-def notify_if_new(results_list, tthresh=5):
+def notify_if_new(new_results, old_results):
 
-    for results in results_list:
-        posttime = datetime.strptime((results.get('listDateTime')), "%Y-%m-%d %H:%M")
-        #print(str(posttime) + " " + str(results))
-        #print("current time: " + str(datetime.now()))
-        #print("post time: " + str(posttime))
-        #print("threshold time: " + str(posttime + timedelta(minutes=tthresh)))
-        #print(str(datetime.now() < posttime + timedelta(minutes=tthresh)))
-        if datetime.now() < posttime + timedelta(minutes=tthresh):
+    for new in new_results:
+
+        #posttime = datetime.strptime((results.get('listDateTime')), "%Y-%m-%d %H:%M")
+        #print(str(new))
+
+        if not new in old_results:
            print("Email Sent!!!")
-           send_email(str(results), ['sam.reiter88@gmail.com'])
+           send_email(str(new), ['sam.reiter88@gmail.com'])
+
+           site = new.get('postURL')
+           if uri_exists_stream(site):
+               openURL(site)
+           elif uri_exists_stream(site):  # try a second time, just to be sure
+               openURL(site)
+           else:
+               print("https://" + city + ".craigslist.org is not a valid URL.")
 
 def searcher():
 
@@ -170,7 +188,9 @@ def searcher():
     states = args.states
     c = args.cities         # add cities to search
 
-    sleeptime = 2    # how often should we rerun the search (minutes)
+    oldresults = []
+    firstrun = True
+    sleeptime = 0    # how often should we rerun the search (minutes)
 
     for state in states:
         for city in get_citycodes_from_state(state):
@@ -182,8 +202,15 @@ def searcher():
     #open_searches_chrome(c, ss)
 
     while True:
-        l = scrape_and_log_results(c, ss)
-        notify_if_new(l, 20)
+        newresults = scrape_and_log_results(c, ss)
+
+        if not firstrun:
+            #print(newresults)
+            #print(oldresults)
+            notify_if_new(newresults, oldresults)
+
+        firstrun = False
+        oldresults = newresults.copy()          #will doing this on repeat increase memory usage?
         time.sleep(sleeptime)
         print('loop done!')
 
