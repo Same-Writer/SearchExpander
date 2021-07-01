@@ -3,8 +3,10 @@ from string import Template
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+# make temp throwaway email account to send emails
 MY_ADDRESS = 'clnotifier1278@gmail.com'
-PASSWORD = 'Ha$HloCk1278'
+PASSWORD = ''
+
 
 def get_contacts(filename):
     """
@@ -20,6 +22,7 @@ def get_contacts(filename):
             emails.append(a_contact.split()[1])
     return names, emails
 
+
 def read_template(filename):
     """
     Returns a Template object comprising the contents of the
@@ -30,9 +33,8 @@ def read_template(filename):
         template_file_content = template_file.read()
     return Template(template_file_content)
 
-def send_email(message_input, email_input):
-    #names, emails = get_contacts('mycontacts.txt') # read contacts
-    #message_template = read_template('messages.txt')
+
+def send_email(subject_input, body_input, email_input):
 
     # set up the SMTP server
     s = smtplib.SMTP(host='smtp.gmail.com', port=587)
@@ -41,21 +43,16 @@ def send_email(message_input, email_input):
 
     # For each contact, send the email:
     for email in email_input:
+
         msg = MIMEMultipart()       # create a message
-
-        # add in the actual person name to the message template
-        #message = message_input.substitute(PERSON_NAME=name.title())
-
-        # Prints out the message body for our sake
-        #print(message)
 
         # setup the parameters of the message
         msg['From']=MY_ADDRESS
         msg['To']=email
-        msg['Subject']="This is TEST"
+        msg['Subject']=subject_input
 
         # add in the message body
-        msg.attach(MIMEText(message_input, 'plain'))
+        msg.attach(MIMEText(body_input, 'plain'))
 
         # send the message via the server set up earlier.
         #s.send_message(msg)
