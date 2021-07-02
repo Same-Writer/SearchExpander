@@ -1,2 +1,0 @@
-https://dallas.craigslist.org/d/cars-trucks/search/cta?max_price=25000&min_price=1000&query=miata%20club%202016%7C2017%7C2018%7C2019%7C2020%7C2021&sort=date
-https://dallas.craigslist.org/d/cars-trucks-by-owner/search/cto?min_price=0&query=s2000%7Cs2k%202000%7C2001%7C2002%7C2003%7C2004%7C2005%7C2006%7C2007%7C2008&sort=date
