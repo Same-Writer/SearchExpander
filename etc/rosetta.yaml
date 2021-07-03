@@ -2,13 +2,15 @@ Alabama:
   auburn : auburn
   birmingham : bham
   dothan : dothan
-  florence : shoals
+  florence : shoals            #city name is present in another state
+  al-florence: shoals
   muscle shoals : shoals
   gadsden-anniston : gadsden
   gadsden : gadsden
   anniston : gadsden
   huntsville : huntsville
-  decatur : huntsville
+  decatur : huntsville         #city name is present in another state
+  al-decatur: huntsville
   mobile : mobile
   montgomery : montgomery
   tuscaloosa : tuscaloosa
@@ -32,7 +34,8 @@ Arizona:
   yuma : yuma
 
 Arkansas:
-  fayetteville : fayar
+  fayetteville : fayar        #city name is present in another state
+  ar-fayetteville: fayar
   fort smith : fortsmith
   jonesboro : jonesboro
   little rock : littlerock
@@ -108,7 +111,8 @@ Florida:
   SW florida : fortmyers
   gainesville : gainesville
   heartland florida : cfl
-  jacksonville : jacksonville
+  jacksonville : jacksonville       #city name is present in another state
+  fl-jacksonville: jacksonville
   lakeland : lakeland
   miami / dade : miami
   dade: miami
@@ -133,12 +137,15 @@ Florida:
   palm beach county : miami
 
 Georgia :
-  albany : albany
-  athens : athens
+  albany : albanyga           #city name is present in another state
+  ga-albany: albanyga
+  athens : athensga           #city name is present in another state
+  ga-athens: athensga
   atlanta : atlanta
   augusta : augusta
   brunswick : brunswick
-  columbus : columbus
+  columbus : columbusga       #city name is present in another state
+  ga-columbus: columbusga
   macon / warner robins : macon
   macon : macon
   warner robins : macon
@@ -164,14 +171,18 @@ Illinois:
   bloomington-normal : bn
   champaign urbana : chambana
   chicago : chicago
-  decatur : decatur
+  decatur : decatur           #city name is present in another state
+  il-decatur: decatur
   la salle co : lasalle
   mattoon-charleston : mattoon
   mattoon : mattoon
+  charleston: mattoon         #city name is present in another state
+  il-charleston: mattoon
   peoria : peoria
   rockford : rockford
   southern illinois : carbondale
-  springfield : springfield
+  springfield : springfieldil     #city name is present in another state
+  il-springfield: springfieldil
   western IL : quincy
 
 Indiana:
@@ -185,7 +196,8 @@ Indiana:
   muncie / anderson : muncie
   muncie : muncie
   anderson : muncie
-  richmond : richmond
+  richmond : richmondin       #city name is present in another state
+  in-richmond: richmondin
   south bend / michiana : southbend
   south bend : southbend
   michiana: southbend
@@ -230,7 +242,8 @@ Louisiana:
   houma : houma
   lafayette : lafayette
   lake charles : lakecharles
-  monroe : monroe
+  monroe : monroe             #city name is present in another state
+  la-monroe: monroe
   new orleans : neworleans
   shreveport : shreveport
 
@@ -262,10 +275,12 @@ Michigan:
   flint : flint
   grand rapids : grandrapids
   holland : holland
-  jackson : jackson
+  jackson : jxn               #city name is present in another state
+  mi-jackson: jxn
   kalamazoo : kalamazoo
   lansing : lansing
-  monroe : monroe
+  monroe : monroemi           #city name is present in another state
+  mi-monroe: monroemi
   muskegon : muskegon
   northern michigan : nmi
   port huron : porthuron
@@ -276,34 +291,44 @@ Michigan:
   the thumb : thumb
   upper peninsula : up
 
-#continue to split overlapping city keys below this point
-
 Minnesota:
   bemidji : bemidji
   brainerd : brainerd
   duluth / superior : duluth
+  duluth : duluth
+  superior : duluth
   mankato : mankato
   minneapolis / st paul : minneapolis
-  rochester : rochester
+  minneapolis : minneapolis
+  st paul : minneapolis
+  rochester : rmn             #city name is present in another state
+  mn-rochester: rmn
   southwest MN : marshall
   st cloud : stcloud
 
 Mississippi:
   gulfport / biloxi : gulfport
+  gulfport : gulfport
+  biloxi : gulfport
   hattiesburg : hattiesburg
-  jackson : jackson
+  jackson : jackson           #city name is present in another state
+  ms-jackson: jackson
   meridian : meridian
   north mississippi : northmiss
   southwest MS : natchez
 
 Missouri:
-  columbia / jeff city : columbia
+  columbia / jeff city : columbiamo
+  columbia : columbiamo       #city name is present in another state
+  mo-columbia: columbiamo
+  jeff city : columbiamo
   joplin : joplin
   kansas city : kansascity
   kirksville : kirksville
   lake of the ozarks : loz
   southeast missouri : semo
-  springfield : springfield
+  springfield : springfield   #city name is present in another state
+  mo-springfield: springfield
   st joseph : stjoseph
   st louis : stlouis
 
@@ -322,12 +347,18 @@ Nebraska:
   lincoln : lincoln
   north platte : northplatte
   omaha / council bluffs : omaha
+  omaha : omaha
+  council bluffs : omaha
   scottsbluff / panhandle : scottsbluff
+  scottsbluff : scottsbluff
+  panhandle : scottsbluff
 
 Nevada:
   elko : elko
   las vegas : lasvegas
   reno / tahoe : reno
+  reno : reno
+  tahoe : reno
 
 New Hampshire:
   new hampshire : nh
@@ -341,18 +372,27 @@ New Jersey:
 New Mexico:
   albuquerque : albuquerque
   clovis / portales : clovis
+  clovis : clovis
+  portales : clovis
   farmington : farmington
   las cruces : lascruces
   roswell / carlsbad : roswell
+  roswell : roswell
+  carlsbad : roswell
   santa fe / taos : santafe
+  santa fe : santafe
+  taos : santafe
 
 New York:
-  albany : albany
+  albany : albany           #city name is present in another state
+  ny-albany: albany
   binghamton : binghamton
   buffalo : buffalo
   catskills : catskills
   chautauqua : chautauqua
   elmira-corning : elmira
+  elmira : elmira
+  corning : elmira
   finger lakes : fingerlakes
   glens falls : glensfalls
   hudson valley : hudsonvalley
@@ -361,11 +401,21 @@ New York:
   new york city : nyc
   oneonta : oneonta
   plattsburgh-adirondacks : plattsburgh
+  plattsburgh : plattsburgh
+  adirondacks : plattsburgh
   potsdam-canton-massena : potsdam
-  rochester : rochester
+  potsdam : potsdam
+  canton : potsdam          #city name is present in another state
+  ny-canton: potsdam
+  massena : potsdam
+  rochester : rochester     #city name is present in another state
+  ny-rochester: rochester
   syracuse : syracuse
   twin tiers NY/PA : twintiers
   utica-rome-oneida : utica
+  utica : utica
+  rome : utica
+  oneida : utica
   watertown : watertown
 
 North Carolina:
@@ -374,36 +424,60 @@ North Carolina:
   charlotte : charlotte
   eastern NC : eastnc
   fayetteville : fayetteville
+  nc-fayetteville: fayetteville
   greensboro : greensboro
   hickory / lenoir : hickory
-  jacksonville : jacksonville
+  hickory : hickory
+  lenoir : hickory
+  jacksonville : onslow       #city name is present in another state
+  nc-jacksonville: onslow
   outer banks : outerbanks
   raleigh / durham / CH : raleigh
+  raleigh : raleigh
+  durham : raleigh
+  CH : raleigh
   wilmington : wilmington
   winston-salem : winstonsalem
+  winston : winstonsalem
+  salem : winstonsalem        #city name is present in another state
+  nc-salem: winstonsalem
 
 North Dakota:
   bismarck : bismarck
   fargo / moorhead : fargo
+  fargo : fargo
+  moorhead : fargo
   grand forks : grandforks
   north dakota : nd
 
 Ohio:
   akron / canton : akroncanton
+  akron : akroncanton
+  canton : akroncanton        #city name is present in another state
+  oh-canton: akroncanton
   ashtabula : ashtabula
-  athens : athens
+  athens : athens             #city name is present in another state
+  oh-athens: athens
   chillicothe : chillicothe
   cincinnati : cincinnati
   cleveland : cleveland
-  columbus : columbus
+  columbus : columbus         #city name is present in another state
+  oh-columbus: columbus
   dayton / springfield : dayton
+  dayton : dayton
+  springfield : dayton        #city name is present in another state
+  oh-springfield: dayton
   lima / findlay : lima
+  lima : lima
+  findlay : lima
   mansfield : mansfield
   sandusky : sandusky
   toledo : toledo
   tuscarawas co : tuscarawas
   youngstown : youngstown
   zanesville / cambridge : zanesville
+  zanesville : zanesville
+  cambridge : zanesville
 
 Oklahoma:
   lawton : lawton
@@ -415,17 +489,26 @@ Oklahoma:
 Oregon:
   bend : bend
   corvallis/albany : corvallis
+  corvallis : corvallis
+  albany : corvallis            #city name is present in another state
+  or-albany: corvallis
   east oregon : eastoregon
   eugene : eugene
   klamath falls : klamath
   medford-ashland : medford
+  medford : medford
+  ashland : medford             #city name is present in another state
+  or-ashland: medford
   oregon coast : oregoncoast
   portland : portland
   roseburg : roseburg
-  salem : salem
+  salem : salem                 #city name is present in another state
+  or-salem: salem
 
 Pennsylvania:
   altoona-johnstown : altoona
+  altoona : altoona
+  johnstown : altoona
   cumberland valley : chambersburg
   erie : erie
   harrisburg : harrisburg
@@ -437,6 +520,8 @@ Pennsylvania:
   poconos : poconos
   reading : reading
   scranton / wilkes-barre : scranton
+  scranton : scranton
+  wilkes-barre : scranton
   state college : pennstate
   williamsport : williamsport
   york : york
@@ -445,25 +530,37 @@ Rhode Island:
   rhode island : providence
 
 South Carolina:
-  charleston : charleston
-  columbia : columbia
-  florence : florence
+  charleston : charleston       #city name is present in another state
+  sc-charleston: charleston
+  columbia : columbia           #city name is present in another state
+  sc-columbia: columbia
+  florence : florence           #city name is present in another state
+  sc-florence: florence
   greenville / upstate : greenville
+  greenville : greenville
+  upstate : greenville
   hilton head : hiltonhead
   myrtle beach : myrtlebeach
 
 South Dakota:
   northeast SD : nesd
   pierre / central SD : csd
+  pierre : csd
+  central SD: csd
   rapid city / west SD : rapidcity
+  rapid city: rapidcity
+  west SD : rapidcity
   sioux falls / SE SD : siouxfalls
+  sioux falls : siouxfalls
+  SE SD : siouxfalls
   south dakota : sd
 
 Tennessee:
   chattanooga : chattanooga
   clarksville : clarksville
   cookeville : cookeville
-  jackson : jackson
+  jackson : jacksontn           #city name is present in another state
+  tn-jackson: jacksontn
   knoxville : knoxville
   memphis : memphis
   nashville : nashville
@@ -473,34 +570,42 @@ Texas:
   abilene : abilene
   amarillo : amarillo
   austin : austin
-  #beaumont / port arthur
+  beaumont / port arthur : beaumont
   beaumont : beaumont
+  port arthur: beaumont
   brownsville : brownsville
   college station : collegestation
   corpus christi : corpuschristi
-  #dallas / fort worth
-  dallas : dallas   #has 5 subregions
+  dallas / fort worth : dallas
+  dallas : dallas
+  fort worth : dallas
   deep east texas : nacogdoches
-  #del rio / eagle pass
+  del rio / eagle pass : delrio
   del rio : delrio
+  eagle pass : delrio
   el paso : elpaso
   galveston : galveston
   houston : houston
-  #killeen / temple / ft hood
+  killeen / temple / ft hood : killeen
   killeen : killeen
+  temple : killeen
+  ft hood : killeen
   laredo : laredo
   lubbock : lubbock
-  #mcallen / edinburg
+  mcallen / edinburg : mcallen
   mcallen : mcallen
-  #odessa / midland
+  edinburg : mcallen
+  odessa / midland : odessa
   odessa : odessa
+  midland : odessa
   san angelo : sanangelo
   san antonio : sanangelo
   san marcos : sanmarcos
   southwest TX : bigbend
   texoma : texoma
-  #tyler / east TX
+  tyler / east TX : easttexas
   tyler : easttexas
+  east TX : easttexas
   victoria : victoriatx
   waco : waco
   wichita falls : wichitafalls
@@ -509,6 +614,8 @@ Utah:
   logan : logan
   ogden-clearfield : ogden
   provo / orem : provo
+  provo : provo
+  orem : provo
   salt lake city : slc
   st george : stgeorge
 
@@ -523,7 +630,8 @@ Virginia:
   harrisonburg : harrisonburg
   lynchburg : lynchburg
   new river valley : blacksburg
-  richmond : richmond
+  richmond : richmond           #city name is present in another state
+  va-richmond: richmond
   roanoke : roanoke
   southwest VA : swva
   winchester : winchester
@@ -531,31 +639,54 @@ Virginia:
 Washington:
   bellingham : bellingham
   kennewick-pasco-richland : kpr
+  kennewick : kpr
+  pasco : kpr
+  richland : kpr
   moses lake : moseslake
   olympic peninsula : olympic
   pullman / moscow : pullman
+  pullman : pullman
+  moscow : pullman
   seattle-tacoma : seattle
+  seattle : seattle
+  tacoma : seattle
   skagit / island / SJI : skagit
+  skagit  : skagit
+  island  : skagit
+  SJI : skagit
   spokane / coeur d'alene : spokane
+  spokane : spokane
+  coeur d'alene : spokane
   wenatchee : wenatchee
   yakima : yakima
 
 West Virginia:
-  charleston : charleston
+  charleston : charlestonwv      #city name is present in another state
+  wv-charleston: charlestonwv
   eastern panhandle : martinsburg
   huntington-ashland : huntington
+  huntington : huntington
+  ashland : huntington
+  wv-ashland: huntington
   morgantown : morgantown
   northern panhandle : wheeling
   parkersburg-marietta : parkersburg
+  parkersburg : parkersburg
+  marietta : parkersburg
   southern WV : swv
   west virginia (old) : wv
 
 Wisconsin:
   appleton-oshkosh-FDL : appleton
+  appleton : appleton
+  oshkosh : appleton
+  FDL : appleton
   eau claire : eauclaire
   green bay : greenbay
   janesville : janesville
   kenosha-racine : racine
+  kenosha : racine
+  racine : racine
   la crosse : lacrosse
   madison : madison
   milwaukee : milwaukee
@@ -568,5 +699,7 @@ Wyoming:
 
 Territories:
   guam-micronesia : micronesia
+  guam : micronesia
+  micronesia : micronesia
   puerto rico : puertorico
   U.S. virgin islands : virgin

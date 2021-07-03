@@ -14,9 +14,9 @@ from sendSMTP import send_email
 from settingsparse import SettingsParser
 
 
-def import_rosetta() -> None:
+def import_rosetta(file) -> None:
 
-    with open("etc/rosetta.yaml", "r") as stream:
+    with open(file, "r") as stream:
         try:
             return yaml.safe_load(stream)
         except yaml.YAMLError as exc:
@@ -70,26 +70,25 @@ def open_url(url, OS="Linux") -> None:
 
 
 def open_searches_chrome(cities, parameters) -> None:
-    if settings.openbrowser:
-        for string in parameters:
-            for city in cities:
-                site = str("https://" + str(city) + ".craigslist.org" + string)
-                if uri_exists_stream(site):
-                    open_url(site)
-                elif uri_exists_stream(site):   # try a second time, just to be sure
-                    open_url(site)
-                else:
-                    print("https://" + city + ".craigslist.org is not a valid URL.")
-                time.sleep(.1)
-        if not cities:
-            print("No cities or states provided to search. Use --cities or --states arguments when running this script")
+    for string in parameters:
+        for city in cities:
+            site = str("https://" + str(city) + ".craigslist.org" + string)
+            if uri_exists_stream(site):
+                open_url(site)
+            elif uri_exists_stream(site):   # try a second time, just to be sure
+                open_url(site)
+            else:
+                print("https://" + city + ".craigslist.org is not a valid URL.")
+            time.sleep(.1)
+    if not cities:
+        print("No cities or states provided to search. Use --cities or --states arguments when running this script")
 
 
-def get_citycodes_from_state(state) -> list:    #TODO this input needs to be case insensitive
+def get_citycodes_from_state(state, rosetta_path) -> list:    #TODO this input needs to be case insensitive
 
     citycodes = []
 
-    rs = import_rosetta()
+    rs = import_rosetta("etc/rosetta.yaml")
 
     for key, value in rs.items():
         if key == state:
@@ -99,11 +98,23 @@ def get_citycodes_from_state(state) -> list:    #TODO this input needs to be cas
     return citycodes
 
 
-def get_citycodes_from_citylist(citylist) -> list:    #TODO this input needs to be case insensitive
+def get_citycodes_from_citylist(citylist, rosetta_path) -> list:    #TODO this input needs to be case insensitive
 
     citycodes = []
+    i=0
 
-    rs = import_rosetta()
+    rs = import_rosetta("etc/rosetta.yaml")
+
+    for c in citylist:
+        for state in rs:
+            for cc in rs[state]:
+                if c == cc:
+                    i += 1
+        if i > 1:
+            print("\nWARNING: Found multiple cities named \'" + str(c) + "\'. Try adding \'<two letter state code>-\' to your city. e.g. \'jacksonville\' becomes either \'fl-jacksonville\' or \'nc-jacksonville\'.")
+        i=0
+
+
     for key, value in rs.items():
         for city in citylist:
             if city in value:
@@ -172,17 +183,17 @@ def notify_if_changed(new_results, old_results, settings) -> None:
             title, body = pretty_listing(new)
             title, body_condensed = pretty_listing(new, True)
 
-            if settings.notifyemail:
+            if settings.notify_email:
                 send_email(
                     settings.smtp_addr,
                     settings.smtp_pw,
                     title,
                     body,
-                    settings.email)
+                    settings.email_recipients)
 
             site = new.get('postURL')
 
-            if settings.openbrowser:
+            if settings.open_browser:
                 if uri_exists_stream(site):
                     open_url(site)
                 elif uri_exists_stream(site):  # try a second time, just to be sure
@@ -238,10 +249,10 @@ def searcher():
     settings.parse_settings()
 
     states = settings.states
-    cities = get_citycodes_from_citylist(settings.cities)
+    cities = get_citycodes_from_citylist(settings.cities, settings.rosetta_path)
 
     for state in states:
-        for city in get_citycodes_from_state(state):
+        for city in get_citycodes_from_state(state, settings.rosetta_path):
             cities.append(city)
 
     cities = list(set(cities))        # remove duplicates from cities list
