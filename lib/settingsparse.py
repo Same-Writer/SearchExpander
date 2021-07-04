@@ -6,6 +6,7 @@ class SettingsParser:
 
     smtp_addr = ""
     smtp_pw = ""
+    smtp_test = True
 
     rosetta_path = ""
     log_results = True
@@ -35,6 +36,7 @@ class SettingsParser:
         smtp = stream["SMTP Client"]
         self.smtp_addr = smtp['address']
         self.smtp_pw = smtp['password']
+        self.smtp_test = smtp['send test']
 
         app_settings = stream["App Settings"]
         self.rosetta_path = app_settings['rosetta path']

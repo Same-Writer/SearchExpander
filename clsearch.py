@@ -265,6 +265,15 @@ def searcher():
 
     settings.parse_settings()
 
+    if settings.notify_email and settings.smtp_test:
+        print("\nSending test email to recipients in settings.txt...")
+        send_email(
+            settings.smtp_addr,
+            settings.smtp_pw,
+            "Test Email",
+            str("Sending test notification email."),            #include scrape overview in this email body?
+            settings.email_recipients)
+
     states = settings.states
     cities = get_citycodes_from_citylist(settings.cities, settings.rosetta_path)
 

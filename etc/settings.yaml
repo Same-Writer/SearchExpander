@@ -1,6 +1,7 @@
 SMTP Client:          #see readme.md for info on SMTP client setup
   address : yourSMTPemail@gmail.com
   password : uniquePW123!
+  send test : True
 
 App Settings:
   rosetta path : etc/rosetta.yaml
