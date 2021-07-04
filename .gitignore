@@ -3,6 +3,7 @@ venv
 
 #results from test runs
 results/*
+!results/.gitkeep
 
 #settings with my login info & email addresses
 samsettings.yaml

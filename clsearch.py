@@ -167,7 +167,7 @@ def scrape_and_log_results(cities, parameters) -> list:
                 if not data in listings:
                     listings.append(data)
 
-    with open('results/results.yaml', 'w') as outfile:
+    with open('results/results.yaml', 'w+') as outfile:
         yaml.dump(listings, outfile, default_flow_style=False)
 
     return listings
