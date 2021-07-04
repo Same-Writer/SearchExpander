@@ -9,3 +9,5 @@ results/*
 samsettings.yaml
 
 *.pyc
+
+.idea/*
