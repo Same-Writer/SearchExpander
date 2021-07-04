@@ -1,0 +1,8 @@
+#virtual environment
+venv
+
+#results from test runs
+results/*
+
+#settings with my login info & email addresses
+samsettings.yaml

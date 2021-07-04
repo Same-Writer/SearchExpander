@@ -1,6 +1,6 @@
 SMTP Client:          #see readme.md for info on SMTP client setup
-  address : yourSMTPemail@gmail.com
-  password : uniquePW
+  address : clnotifier1278@gmail.com
+  password : Ha$HloCk1278
 
 App Settings:
   rosetta path : etc/rosetta.yaml
@@ -13,8 +13,8 @@ Search Parameters:
   openbrowser: True   #opens new listings in chrome
   notifyemail: True   #sends email from SMTP client to email recipients (only if SMTP server is set up)
   email:
-    - personToEmailResults1@gmail.com
-    - personToEmailResults2@gmail.com
+    - sam.reiter8@gmail.com
+    - sam.reiter88@gmail.com
   cities:             #cities should be lower case in this version - see rosetta.yaml
     - jacksonville
   states:             #states should be upper case in this version - see rosetta.yaml
