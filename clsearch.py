@@ -1,7 +1,12 @@
-## V1 -- Sam Reiter
+# ===============================
+# AUTHOR:   SAM REITER
+# CREATE DATE: JUL-2021
+# PURPOSE:  CRAIGSLIST SCRAPER & EMAIL CLIENT
+# ==================================
 
 import argparse
-import sys, time
+import sys
+import time
 import urllib.request
 import webbrowser
 import yaml
@@ -21,6 +26,7 @@ def import_rosetta(file) -> None:
             return yaml.safe_load(stream)
         except yaml.YAMLError as exc:
             print(exc)
+            sys.exit("Error loading etc/rosetta.yaml check that file exists and permissions are correct.")
 
 
 def parse_args():
@@ -31,6 +37,8 @@ def parse_args():
                         help="Run search terms over given list of states")
     parser.add_argument("--cities", nargs='+', default=[],
                         help="Run search terms over given list of states")
+    parser.add_argument("--settings", nargs='?', default='settings.yaml',  type=str,
+                        help="use this to specify non-default settings file in the etc/ directory")
 
     args = parser.parse_args()
 
@@ -38,6 +46,7 @@ def parse_args():
 
 
 def uri_exists_stream(uri: str) -> bool:
+    # checks that a given link exists. supposedly does this w/o loading all data from site
 
     try:
         with requests.get(uri, stream=True) as response:
@@ -51,6 +60,7 @@ def uri_exists_stream(uri: str) -> bool:
 
 
 def open_url(url, OS="Linux") -> None:
+    # only tested on linux so far
 
     if OS == "Mac":
         chrome_path = 'open -a /Applications/Google\ Chrome.app %s'
@@ -61,15 +71,11 @@ def open_url(url, OS="Linux") -> None:
     else:
         chrome_path = '/usr/bin/google-chrome %s'
 
-    # https://stackoverflow.com/questions/38574629/webbrowser-not-opening-new-windows
-
-    # TODO: figure out how to stop this "opening in existing browser session" output & occasional error
-    # https://stackoverflow.com/questions/2323080/how-can-i-disable-the-webbrowser-message-in-python
-
     webbrowser.get(chrome_path).open(url)
 
 
 def open_searches_chrome(cities, parameters) -> None:
+
     for string in parameters:
         for city in cities:
             site = str("https://" + str(city) + ".craigslist.org" + string)
@@ -79,9 +85,9 @@ def open_searches_chrome(cities, parameters) -> None:
                 open_url(site)
             else:
                 print("https://" + city + ".craigslist.org is not a valid URL.")
-            time.sleep(.1)
+            time.sleep(.1)  # helps mitigate warnings thrown from chrome
     if not cities:
-        print("No cities or states provided to search. Use --cities or --states arguments when running this script")
+        print("No cities or states provided to search. add cities and states to settings.yaml")
 
 
 def get_citycodes_from_state(state, rosetta_path) -> list:    #TODO this input needs to be case insensitive
@@ -95,6 +101,8 @@ def get_citycodes_from_state(state, rosetta_path) -> list:    #TODO this input n
             for x, y in value.items():
                 citycodes.append(y)
 
+    citycodes = list(set(citycodes))        #remove duplicates
+
     return citycodes
 
 
@@ -105,7 +113,7 @@ def get_citycodes_from_citylist(citylist, rosetta_path) -> list:    #TODO this i
 
     rs = import_rosetta("etc/rosetta.yaml")
 
-    for c in citylist:
+    for c in citylist:              # Logic to check that cities specified in settings.yaml are unique. Print warning if not.
         for state in rs:
             for cc in rs[state]:
                 if c == cc:
@@ -114,12 +122,13 @@ def get_citycodes_from_citylist(citylist, rosetta_path) -> list:    #TODO this i
             print("\nWARNING: Found multiple cities named \'" + str(c) + "\'. Try adding \'<two letter state code>-\' to your city. e.g. \'jacksonville\' becomes either \'fl-jacksonville\' or \'nc-jacksonville\'.")
         i=0
 
-
-    for key, value in rs.items():
+    for key, value in rs.items():       # Adds citycodes to list
         for city in citylist:
             if city in value:
                 y = value[city]
                 citycodes.append(y)
+
+    citycodes = list(set(citycodes))  # remove duplicates
 
     return citycodes
 
@@ -245,7 +254,15 @@ def searcher():
     oldresults= []
 
     args = parse_args()     # take in CLI arguments
-    settings = SettingsParser('etc/settings.yaml')
+
+    if args.settings == 'settings.yaml':
+        settings = SettingsParser('etc/settings.yaml')
+        print("\nUsing settings file: etc/settings.yaml")
+    else:
+        path = str('etc/' + args.settings)
+        settings = SettingsParser(path)
+        print("\nUsing settings file: etc/" + args.settings)
+
     settings.parse_settings()
 
     states = settings.states

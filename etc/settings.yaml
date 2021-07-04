@@ -1,17 +1,18 @@
 SMTP Client:          #see readme.md for info on SMTP client setup
   address : yourSMTPemail@gmail.com
-  password : uniquePW
+  password : uniquePW123!
 
 App Settings:
   rosetta path : etc/rosetta.yaml
-  log results: True
+  log results : True
   results path : results/results.yaml
-  verbose: False
+  verbose : False
+  searchdelay : .1    #time between CL queries, in seconds
 
 Search Parameters:
-  run: True           #does nothing rn
-  openbrowser: True   #opens new listings in chrome
-  notifyemail: True   #sends email from SMTP client to email recipients (only if SMTP server is set up)
+  run : True           #does nothing rn
+  openbrowser : True   #opens new listings in chrome
+  notifyemail : True   #sends email from SMTP client to email recipients (only if SMTP server is set up)
   email:
     - personToEmailResults1@gmail.com
     - personToEmailResults2@gmail.com
