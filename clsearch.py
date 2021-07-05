@@ -19,7 +19,7 @@ from sendSMTP import send_email
 from settingsparse import SettingsParser
 
 
-def import_rosetta(file) -> None:
+def import_rosetta(file):
 
     with open(file, "r") as stream:
         try:
@@ -255,7 +255,7 @@ def searcher():
 
     args = parse_args()     # take in CLI arguments
 
-    if args.settings == 'settings.yaml':
+    if args.settings == 'settings.yaml':                # read in settings file
         settings = SettingsParser('etc/settings.yaml')
         print("\nUsing settings file: etc/settings.yaml")
     else:
@@ -263,36 +263,36 @@ def searcher():
         settings = SettingsParser(path)
         print("\nUsing settings file: etc/" + args.settings)
 
-    settings.parse_settings()
+    settings.parse_settings()                           # parse settings
 
-    if settings.notify_email and settings.smtp_test:
+    if settings.notify_email and settings.smtp_test:    # send test email
         print("\nSending test email to recipients in settings.txt...")
         send_email(
             settings.smtp_addr,
             settings.smtp_pw,
             "Test Email",
-            str("Sending test notification email."),            #include scrape overview in this email body?
+            str("Sending test notification email."),
             settings.email_recipients)
 
+    cities = get_citycodes_from_citylist(settings.cities, settings.rosetta_path)   # import list of cities from settings
     states = settings.states
-    cities = get_citycodes_from_citylist(settings.cities, settings.rosetta_path)
-
     for state in states:
-        for city in get_citycodes_from_state(state, settings.rosetta_path):
-            cities.append(city)
+        for city in get_citycodes_from_state(state, settings.rosetta_path):        # import list of states from settings
+            cities.append(city)     # append to list of cities
+    cities = list(set(cities))      # remove duplicates from cities list
 
-    cities = list(set(cities))        # remove duplicates from cities list
-    searchstrings = get_search_strings(settings.search_urls)
+    searchstrings = get_search_strings(settings.search_urls)    # import search URLs from settings
 
     print_scrape_overview(searchstrings, cities)
 
     while True:
         newresults = scrape_and_log_results(cities, searchstrings)
+
         if oldresults:
             notify_if_changed(newresults, oldresults, settings)
 
-        oldresults = newresults.copy()          #will doing this on repeat increase memory usage?
+        oldresults = newresults.copy()
 
 
-if __name__  ==  "__main__" :
+if __name__ == "__main__":
     searcher()

@@ -62,6 +62,7 @@ Contains settings and search configurations for running the application.
 
 Lookup table for Craigslist searching. 
 * Translates city names  (e.g. "colorado springs") to the craigslist city URL identifier (e.g. "cosprings").
+  * This city URL identifier is then added into the craigslist URL format (e.g. https://cosprings.craigslist.org)
 * Some grouped city names used by Craigslist (e.g. 'fresno / madera' : fresno) are also broken out into their individual names and all reference the same URL identifier ('fresno / madera' : fresno, 'fresno' : fresno, 'madera' : fresno)
 * Groups cities into states.
 * If you're importing this with another app, use a routine to remove duplicate URLs
@@ -73,3 +74,6 @@ ToDo - these do nothing now. They'll include setup and run for the program. For 
 **./etc/tests/**
 
 These contain various tests for this app. 
+
+
+SEO: Craigslist, scraper, scraping, facebook marketplace, email, notification, craigslist state, scrape and notify 

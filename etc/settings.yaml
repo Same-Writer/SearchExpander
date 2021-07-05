@@ -7,7 +7,7 @@ App Settings:
   rosetta path : etc/rosetta.yaml
   log results : True
   results path : results/results.yaml
-  verbose : False
+  verbose : True
   searchdelay : .1    #time between CL queries, in seconds
 
 Search Parameters:

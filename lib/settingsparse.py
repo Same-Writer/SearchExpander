@@ -11,7 +11,7 @@ class SettingsParser:
     rosetta_path = ""
     log_results = True
     results_path = ""
-    verbose = False
+    verbose = True
 
     run = True
     open_browser = True
