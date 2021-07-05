@@ -14,8 +14,7 @@ Application for scraping craigslist search results across multiple search string
 > git clone https://github.com/Same-Writer/SearchExpander.git \
 > cd SearchExpander
 - Create & activate virtual environment, install requriements
-> python3 -m venv venv 
-> source venv/bin/activate \
+> python3 -m venv venv && source venv/bin/activate \
 > pip install -r requirements.txt
 
 ## Execution instructions
