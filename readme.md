@@ -2,7 +2,7 @@
 # Search Expander
 Application for scraping craigslist search results across multiple search strings, cities and states. Includes optional SMPT email notification client
 
-##__Install instructions__
+## Install instructions
 
 - Install Python3 
 > sudo apt-get update \
@@ -18,11 +18,11 @@ Application for scraping craigslist search results across multiple search string
 > source venv/bin/activate \
 > pip install -r requirements.txt
 
-##__Execution instructions__
+## Execution instructions
 > source venv/bin/activate \
 > python3 clsearch.py
 
-##__Settings File overview__
+## Settings File overview
 
 File location: **./etc/settings.yaml**
 
