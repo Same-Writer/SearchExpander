@@ -3,7 +3,6 @@ certifi==2021.5.30
 chardet==4.0.0
 idna==2.10
 lxml==4.6.3
-pkg-resources==0.0.0
 PyYAML==5.4.1
 requests==2.25.1
 soupsieve==2.2.1
