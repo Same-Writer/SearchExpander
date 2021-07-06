@@ -17,10 +17,10 @@ Search Parameters:
   email:
     - personToEmailResults1@gmail.com
     - personToEmailResults2@gmail.com
-  cities:             #cities should be lower case in this version - see rosetta.yaml
+  cities:             # cities to run searchURLs over (concatenated with states)
     - Jacksonville
     - colorado springs
-  states:             #states should be upper case in this version - see rosetta.yaml
+  states:             # states to run searchURLs over (concatenated with cities)
     - kansas
     - Texas
   searchURLs:         #make sure these searches have a min price set (even if it's 0) - listings with no price set will cause a runtime error at the moment.

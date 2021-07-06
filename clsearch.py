@@ -90,7 +90,7 @@ def open_searches_chrome(cities, parameters) -> None:
         print("No cities or states provided to search. add cities and states to settings.yaml")
 
 
-def get_citycodes_from_state(state, rosetta_path) -> list:    #TODO this input needs to be case insensitive
+def get_citycodes_from_state(state, rosetta_path) -> list:
 
     citycodes = []
 
@@ -106,7 +106,7 @@ def get_citycodes_from_state(state, rosetta_path) -> list:    #TODO this input n
     return citycodes
 
 
-def get_citycodes_from_citylist(citylist, rosetta_path) -> list:    #TODO this input needs to be case insensitive
+def get_citycodes_from_citylist(citylist, rosetta_path) -> list:
 
     citycodes = []
     i=0
