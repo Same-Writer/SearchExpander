@@ -97,7 +97,7 @@ def get_citycodes_from_state(state, rosetta_path) -> list:    #TODO this input n
     rs = import_rosetta("etc/rosetta.yaml")
 
     for key, value in rs.items():
-        if key == state:
+        if key.lower() == state.lower():
             for x, y in value.items():
                 citycodes.append(y)
 
@@ -116,7 +116,7 @@ def get_citycodes_from_citylist(citylist, rosetta_path) -> list:    #TODO this i
     for c in citylist:              # Logic to check that cities specified in settings.yaml are unique. Print warning if not.
         for state in rs:
             for cc in rs[state]:
-                if c == cc:
+                if c.lower() == cc.lower():
                     i += 1
         if i > 1:
             print("\nWARNING: Found multiple cities named \'" + str(c) + "\'. Try adding \'<two letter state code>-\' to your city. e.g. \'jacksonville\' becomes either \'fl-jacksonville\' or \'nc-jacksonville\'.")
@@ -124,8 +124,8 @@ def get_citycodes_from_citylist(citylist, rosetta_path) -> list:    #TODO this i
 
     for key, value in rs.items():       # Adds citycodes to list
         for city in citylist:
-            if city in value:
-                y = value[city]
+            if city.lower() in value:
+                y = value[city.lower()]
                 citycodes.append(y)
 
     citycodes = list(set(citycodes))  # remove duplicates
