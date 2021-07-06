@@ -2,11 +2,12 @@
 # Craigslist Search Expander / Craigslist Scraper / Craigslist Email Notification Client
 Application for scraping craigslist search results across multiple search strings, cities and states. Includes optional SMPT email notification client
 
-## Install instructions
+## Install instructions [linux & macos]
 
 - Install Python3 
 > sudo apt-get update \
-> sudo apt-get install python3 git
+> sudo apt-get install python3 git \
+> __MACOS ONLY:__ go to Macintosh HD >> Applications >> python3.x >> Install Certificates.command
 - Install venv 
 > python3 -m pip install --user --upgrade pip \
 > python3 -m pip install --user virtualenv
