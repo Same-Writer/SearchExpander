@@ -144,7 +144,7 @@ def get_search_strings(urls) -> list:
     return strings
 
 
-def scrape_and_log_results(cities, parameters) -> list:
+def scrape_and_log_results(cities, parameters, delay=0) -> list:
 
     listings = []
 
@@ -152,11 +152,10 @@ def scrape_and_log_results(cities, parameters) -> list:
         for city in cities:
 
             while True:
-                time.sleep(.1)
                 try:
+                    time.sleep(delay)
                     source = urllib.request.urlopen("https://" + city + ".craigslist.org" + string).read()
                 except SocketError as e:
-                    time.sleep(1)
                     print("SocketError: " + str(e))
                     continue
                 break
@@ -226,7 +225,7 @@ def pretty_listing(listing, condensed=False) -> str:
     return title, body
 
 
-def print_scrape_overview(searchstrings, cities) -> None:
+def print_scrape_overview(searchstrings, cities, delay=0) -> None:
 
     ss = []
     cc = []
@@ -243,7 +242,7 @@ def print_scrape_overview(searchstrings, cities) -> None:
     print(*cc, sep="\n")
 
     start = time.time()
-    scrape_and_log_results(cities, searchstrings)
+    scrape_and_log_results(cities, searchstrings, delay)
     end = time.time()
 
     print("\nEXECUTING THESE " + str(len(searchstrings)*len(cities)) + " SCRAPES TAKES " + str(int(end) - int(start)) + " SECONDS.")
@@ -283,10 +282,10 @@ def searcher():
 
     searchstrings = get_search_strings(settings.search_urls)    # import search URLs from settings
 
-    print_scrape_overview(searchstrings, cities)
+    print_scrape_overview(searchstrings, cities, settings.search_delay)
 
     while True:
-        newresults = scrape_and_log_results(cities, searchstrings)
+        newresults = scrape_and_log_results(cities, searchstrings, settings.search_delay)
 
         if oldresults:
             notify_if_changed(newresults, oldresults, settings)

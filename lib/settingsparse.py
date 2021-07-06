@@ -12,6 +12,7 @@ class SettingsParser:
     log_results = True
     results_path = ""
     verbose = True
+    search_delay = 0
 
     run = True
     open_browser = True
@@ -43,6 +44,7 @@ class SettingsParser:
         self.log_results = app_settings['log results']
         self.results_path = app_settings['results path']
         self.verbose = app_settings['verbose']
+        self.search_delay = app_settings["search delay"]
 
         search_parameters = stream["Search Parameters"]
         self.run = search_parameters['run']

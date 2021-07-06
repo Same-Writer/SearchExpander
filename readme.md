@@ -1,5 +1,5 @@
 
-# Craigslist Search Expander / Craigslist Scraper / Craigslist Email Notification Client
+# Craigslist Scraper / Search Expander / Email Notification Client
 Application for scraping craigslist search results across multiple search strings, cities and states. Includes optional SMPT email notification client
 
 ## Install instructions [linux & macos]
