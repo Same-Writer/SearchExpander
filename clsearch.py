@@ -13,6 +13,7 @@ import yaml
 import requests
 from bs4 import BeautifulSoup
 from socket import error as SocketError
+from sys import platform
 
 sys.path.insert(1, 'lib/')
 from sendSMTP import send_email
@@ -59,17 +60,17 @@ def uri_exists_stream(uri: str) -> bool:
         return False
 
 
-def open_url(url, OS="Linux") -> None:
-    # only tested on linux so far
+def open_url(url) -> None:
 
-    if OS == "Mac":
+    if platform == "darwin":
         chrome_path = 'open -a /Applications/Google\ Chrome.app %s'
-    elif OS == "Windows":
+    elif platform == "win32":
         chrome_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
-    elif OS == "Linux":
+    elif platform == "linux" or platform == "linux2":
         chrome_path = '/usr/bin/google-chrome %s'
     else:
-        chrome_path = '/usr/bin/google-chrome %s'
+        #chrome_path = '/usr/bin/google-chrome %s'
+        pass
 
     webbrowser.get(chrome_path).open(url)
 
