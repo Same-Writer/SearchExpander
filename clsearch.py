@@ -133,6 +133,24 @@ def get_citycodes_from_citylist(citylist, rosetta_path) -> list:
     return citycodes
 
 
+def get_city_state_from_citycode(citycodes, rosetta_path) -> list:
+
+    cities_states = [{'state': '', 'city': '', 'url': ''}]
+
+    rs = import_rosetta(rosetta_path)
+    for cityurl in citycodes:
+        for state, city in rs.items():
+            for key, value in city.items():
+                if value == cityurl:
+                    cities_states.append({'state': state, 'city': key, 'url': cityurl})
+                    break
+
+    cities_states.pop(0)
+    #print("number of citycodes entered: " + str(len(citycodes)))
+    #print("number of citiesstates objects created: " + str(len(cities_states)))
+
+    return cities_states
+
 def get_search_strings(urls) -> list:
 
     strings = []
@@ -225,15 +243,19 @@ def pretty_listing(listing, condensed=False) -> str:
     return title, body
 
 
-def print_scrape_overview(searchstrings, cities, delay=0) -> None:
+def print_scrape_overview(searchstrings, cities, settings) -> None:
 
     ss = []
     cc = []
 
     for s in searchstrings:
         ss.append("\thttps://<CITY>.craigslist.org" + str(s))
-    for c in cities:
-        cc.append("\t" + "STATE : " + "CITYNAME : " + c)
+    csu = get_city_state_from_citycode(cities, settings.rosetta_path)
+
+    for i, c in enumerate(csu):
+        if cities[i] == c['url']:
+            cc.append("\t" +  c['state'] + " : " + c['city'] + " : https://" + c['url'] + ".craigslist.org")
+    cc.sort()
 
     print("\nRUNNING THE FOLLOWING SEARCH STRINGS:")
     print("\t", sep="")
@@ -242,7 +264,7 @@ def print_scrape_overview(searchstrings, cities, delay=0) -> None:
     print(*cc, sep="\n")
 
     start = time.time()
-    scrape_and_log_results(cities, searchstrings, delay)
+    scrape_and_log_results(cities, searchstrings, settings.search_delay)
     end = time.time()
 
     print("\nEXECUTING THESE " + str(len(searchstrings)*len(cities)) + " SCRAPES TAKES " + str(int(end) - int(start)) + " SECONDS.")
@@ -264,7 +286,7 @@ def searcher():
 
     settings.parse_settings()                           # parse settings
 
-    if settings.notify_email and settings.smtp_test:    # send test email
+    if settings.notify_email and settings.smtp_test:    # send test email, if enabled
         print("\nSending test email to recipients in settings.txt...")
         send_email(
             settings.smtp_addr,
@@ -282,8 +304,9 @@ def searcher():
 
     searchstrings = get_search_strings(settings.search_urls)    # import search URLs from settings
 
-    print_scrape_overview(searchstrings, cities, settings.search_delay)
+    print_scrape_overview(searchstrings, cities, settings)
 
+    # This loop is the meat of the program
     while True:
         newresults = scrape_and_log_results(cities, searchstrings, settings.search_delay)
 
@@ -294,4 +317,7 @@ def searcher():
 
 
 if __name__ == "__main__":
-    searcher()
+    try:
+        searcher()
+    except KeyboardInterrupt:
+        exit()
