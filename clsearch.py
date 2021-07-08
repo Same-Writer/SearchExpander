@@ -163,7 +163,7 @@ def get_search_strings(urls) -> list:
     return strings
 
 
-def scrape_link(link, delay, get_next_page=True):
+def scrape_link(link, delay, get_next_page=False):
 
     listings = []
 
@@ -212,20 +212,20 @@ def scrape_link(link, delay, get_next_page=True):
     if get_next_page and meta.find("link", rel="next"):
         if meta.find("link", rel="next"):
             nextpage = meta.find("link", rel="next").get("href")
-            for listing in scrape_link(nextpage, delay, get_next_page=True):
+            for listing in scrape_link(nextpage, delay, get_next_page):
                 listings.append(listing)
 
     return listings
 
 
-def scrape_and_log_results(cities, parameters, delay=0) -> list:
+def scrape_and_log_results(cities, parameters, settings) -> list:
 
     scraped_results = []
 
     for string in parameters:
         for city in cities:
             searchurl = str("https://" + city + ".craigslist.org" + string)
-            for search_results in scrape_link(searchurl, delay, get_next_page=True):
+            for search_results in scrape_link(searchurl, settings.search_delay, settings.scrape_next):
                 scraped_results.append(search_results)
 
     with open('results/results.yaml', 'w+') as outfile:
@@ -299,7 +299,7 @@ def print_scrape_overview(searchstrings, cities, settings) -> None:
     print(*cc, sep="\n")
 
     start = time.time()
-    results = scrape_and_log_results(cities, searchstrings, settings.search_delay)
+    results = scrape_and_log_results(cities, searchstrings, settings)
     end = time.time()
 
     print("\nEXECUTING THESE " + str(len(searchstrings)*len(cities)) + " SCRAPES RETURNS " + str(len(results)) + " RESULTS IN " + str(int(end) - int(start)) + " SECONDS.")
@@ -336,7 +336,7 @@ def searcher():
         for state in states:
             for city in get_citycodes_from_state(state, settings.rosetta_path):        # import list of states from settings
                 cities.append(city)     # append to list of cities
-    cities = list(set(cities))      # remove duplicates from cities list
+    cities = list(set(cities))          # remove duplicates from cities list
 
     searchstrings = get_search_strings(settings.search_urls)    # import search URLs from settings
 
@@ -344,7 +344,7 @@ def searcher():
 
     # This loop is the meat of the program
     while True:
-        newresults = scrape_and_log_results(cities, searchstrings, settings.search_delay)
+        newresults = scrape_and_log_results(cities, searchstrings, settings)
 
         if oldresults:
             notify_if_changed(newresults, oldresults, settings)

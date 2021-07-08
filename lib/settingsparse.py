@@ -17,6 +17,7 @@ class SettingsParser:
     run = True
     open_browser = True
     notify_email = True
+    scrape_next = False
     email_recipients = []
     cities = []
     states = []
@@ -50,6 +51,7 @@ class SettingsParser:
         self.run = search_parameters['run']
         self.open_browser = search_parameters['openbrowser']
         self.notify_email = search_parameters['notifyemail']
+        self.scrape_next = search_parameters['scrape all pages']
         self.email_recipients = search_parameters['email']
         self.cities = search_parameters['cities']
         self.states = search_parameters['states']
