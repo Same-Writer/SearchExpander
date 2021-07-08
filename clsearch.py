@@ -212,17 +212,21 @@ def scrape_link(link, delay, get_next_page=True):
     if get_next_page and meta.find("link", rel="next"):
         if meta.find("link", rel="next"):
             nextpage = meta.find("link", rel="next").get("href")
-            listings.append(scrape_link(nextpage, delay, get_next_page=True))
+            for listing in scrape_link(nextpage, delay, get_next_page=True):
+                listings.append(listing)
 
     return listings
 
 
 def scrape_and_log_results(cities, parameters, delay=0) -> list:
 
+    scraped_results = []
+
     for string in parameters:
         for city in cities:
             searchurl = str("https://" + city + ".craigslist.org" + string)
-            scraped_results = scrape_link(searchurl, delay, get_next_page=True)
+            for search_results in scrape_link(searchurl, delay, get_next_page=True):
+                scraped_results.append(search_results)
 
     with open('results/results.yaml', 'w+') as outfile:
         yaml.dump(scraped_results, outfile, default_flow_style=False)
@@ -295,10 +299,10 @@ def print_scrape_overview(searchstrings, cities, settings) -> None:
     print(*cc, sep="\n")
 
     start = time.time()
-    scrape_and_log_results(cities, searchstrings, settings.search_delay)
+    results = scrape_and_log_results(cities, searchstrings, settings.search_delay)
     end = time.time()
 
-    print("\nEXECUTING THESE " + str(len(searchstrings)*len(cities)) + " SCRAPES TAKES " + str(int(end) - int(start)) + " SECONDS.")
+    print("\nEXECUTING THESE " + str(len(searchstrings)*len(cities)) + " SCRAPES RETURNS " + str(len(results)) + " RESULTS IN " + str(int(end) - int(start)) + " SECONDS.")
 
 
 def searcher():
