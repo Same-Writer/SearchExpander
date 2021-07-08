@@ -152,6 +152,7 @@ def get_city_state_from_citycode(citycodes, rosetta_path) -> list:
 
     return cities_states
 
+
 def get_search_strings(urls) -> list:
 
     strings = []
@@ -166,7 +167,7 @@ def get_search_strings(urls) -> list:
 def scrape_link(link, delay, get_next_page=False):
 
     listings = []
-
+    #print(link)
     while True:
         try:
             time.sleep(delay)
@@ -181,15 +182,10 @@ def scrape_link(link, delay, get_next_page=False):
 
     for result in results.findAll(class_="result-info"):
 
-        if result.find(class_='result-price'):  # TODO all scrapes should be in this if/else format
+        if result.find(class_='result-price'):
             list_price = result.find(class_='result-price').text
         else:
             list_price = "N/A"
-
-        if result.find(class_='result-hood'):
-            neighborhood = result.find(class_='result-hood').text
-        else:
-            neighborhood = "N/A"
 
         if result.find(class_='result-hood'):
             neighborhood = result.find(class_='result-hood').text
@@ -202,8 +198,7 @@ def scrape_link(link, delay, get_next_page=False):
             listDate=result.find(class_='result-date').get('title'),
             listDateTime=result.find(class_='result-date').get('datetime'),
             listPrice=list_price,
-            postURL=result.find(class_='result-title hdrlnk').get('href'),
-            postHood=neighborhood)
+            postURL=result.find(class_='result-title hdrlnk').get('href'))
 
         if not data in listings:
             listings.append(data)
@@ -238,9 +233,12 @@ def notify_if_changed(new_results, old_results, settings) -> None:
 
     for new in new_results:
         if not new in old_results:
-
-            print("Email Sent!!!")
-
+            #USE BLOCK FOR DEBUGGING UNEXPECTED NOTIFICATIONS
+            #print("found new/changed result! " + str(new) + "\n\n")
+            #print("new results:")
+            #print(*new_results, sep="\n")
+            #print("old results:")
+            #print(*old_results, sep="\n")
             title, body = pretty_listing(new)
             title, body_condensed = pretty_listing(new, True)
 
@@ -251,6 +249,7 @@ def notify_if_changed(new_results, old_results, settings) -> None:
                     title,
                     body,
                     settings.email_recipients)
+                print("Email Sent!!!")
 
             site = new.get('postURL')
 
@@ -345,7 +344,6 @@ def searcher():
     # This loop is the meat of the program
     while True:
         newresults = scrape_and_log_results(cities, searchstrings, settings)
-
         if oldresults:
             notify_if_changed(newresults, oldresults, settings)
 
