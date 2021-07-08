@@ -163,41 +163,71 @@ def get_search_strings(urls) -> list:
     return strings
 
 
-def scrape_and_log_results(cities, parameters, delay=0) -> list:
+def scrape_link(link, delay, get_next_page=True):
 
     listings = []
 
-    for string in parameters:
-        for city in cities:
+    while True:
+        try:
+            time.sleep(delay)
+            source = urllib.request.urlopen(link).read()
+        except SocketError as e:
+            print("SocketError: " + str(e))
+            continue
+        break
 
-            while True:
-                try:
-                    time.sleep(delay)
-                    source = urllib.request.urlopen("https://" + city + ".craigslist.org" + string).read()
-                except SocketError as e:
-                    print("SocketError: " + str(e))
-                    continue
-                break
+    cl_page = BeautifulSoup(source, 'lxml')
+    results = cl_page.find(id="search-results", class_='rows')
 
-            cl_page = BeautifulSoup(source, 'lxml')
-            results = cl_page.find(id="search-results",class_='rows')
+    for result in results.findAll(class_="result-info"):
 
-            for result in results.findAll(class_="result-info"):
-                data = dict(
-                    postID=result.find(class_='result-title hdrlnk').get('data-id'),
-                    listTitle=result.find(class_='result-heading').a.text,
-                    listDate=result.find(class_='result-date').get('title'),
-                    listDateTime=result.find(class_='result-date').get('datetime'),
-                    listPrice=result.find(class_='result-price').text,
-                    postURL=result.find(class_='result-title hdrlnk').get('href'))
+        if result.find(class_='result-price'):  # TODO all scrapes should be in this if/else format
+            list_price = result.find(class_='result-price').text
+        else:
+            list_price = "N/A"
 
-                if not data in listings:
-                    listings.append(data)
+        if result.find(class_='result-hood'):
+            neighborhood = result.find(class_='result-hood').text
+        else:
+            neighborhood = "N/A"
 
-    with open('results/results.yaml', 'w+') as outfile:
-        yaml.dump(listings, outfile, default_flow_style=False)
+        if result.find(class_='result-hood'):
+            neighborhood = result.find(class_='result-hood').text
+        else:
+            neighborhood = "N/A"
+
+        data = dict(
+            postID=result.find(class_='result-title hdrlnk').get('data-id'),
+            listTitle=result.find(class_='result-heading').a.text,
+            listDate=result.find(class_='result-date').get('title'),
+            listDateTime=result.find(class_='result-date').get('datetime'),
+            listPrice=list_price,
+            postURL=result.find(class_='result-title hdrlnk').get('href'),
+            postHood=neighborhood)
+
+        if not data in listings:
+            listings.append(data)
+
+    meta = cl_page.find(class_="no-js")
+    if get_next_page and meta.find("link", rel="next"):
+        if meta.find("link", rel="next"):
+            nextpage = meta.find("link", rel="next").get("href")
+            listings.append(scrape_link(nextpage, delay, get_next_page=True))
 
     return listings
+
+
+def scrape_and_log_results(cities, parameters, delay=0) -> list:
+
+    for string in parameters:
+        for city in cities:
+            searchurl = str("https://" + city + ".craigslist.org" + string)
+            scraped_results = scrape_link(searchurl, delay, get_next_page=True)
+
+    with open('results/results.yaml', 'w+') as outfile:
+        yaml.dump(scraped_results, outfile, default_flow_style=False)
+
+    return scraped_results
 
 
 def notify_if_changed(new_results, old_results, settings) -> None:
@@ -298,9 +328,10 @@ def searcher():
 
     cities = get_citycodes_from_citylist(settings.cities, settings.rosetta_path)   # import list of cities from settings
     states = settings.states
-    for state in states:
-        for city in get_citycodes_from_state(state, settings.rosetta_path):        # import list of states from settings
-            cities.append(city)     # append to list of cities
+    if states:
+        for state in states:
+            for city in get_citycodes_from_state(state, settings.rosetta_path):        # import list of states from settings
+                cities.append(city)     # append to list of cities
     cities = list(set(cities))      # remove duplicates from cities list
 
     searchstrings = get_search_strings(settings.search_urls)    # import search URLs from settings
