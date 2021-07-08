@@ -57,7 +57,6 @@ Contains settings and search configurations for running the application.
     * Set up your full search with filters on craigslist.org and copy-paste the URL into these bulleted-fields
     * BEST PRACTICE: Use search narrowing methods, listed here to block out 'noise' in your search: https://www.craigslist.org/about/help/search
     * BEST PRACTICE: Sort by 'newest' rather than relevant. We don't dig past the first page of results, so make sure the latest results are on top. 
-    * BEST PRACTICE: Set a min price of $0, rather than leaving it blank. Results without a price field make this program very sad.
 
 **./etc/rosetta.yaml**
 

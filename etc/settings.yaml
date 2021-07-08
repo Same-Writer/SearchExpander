@@ -1,4 +1,4 @@
-SMTP Client:          #see readme.md for info on SMTP client setup
+SMTP Client:                # see readme.md for info on SMTP client setup
   address : yourSMTPemail@gmail.com
   password : uniquePW123!
   send test : False
@@ -8,21 +8,24 @@ App Settings:
   log results : True
   results path : results/results.yaml
   verbose : True
-  search delay : .1    #time between CL queries, in seconds
+  search delay : .1         # time between CL queries, in seconds
 
 Search Parameters:
-  run : True           #does nothing rn
-  openbrowser : True   #opens new listings in chrome
-  notifyemail : False   #sends email from SMTP client to email recipients (only if SMTP server is set up)
+  run : True                # does nothing rn
+  openbrowser : True        # opens new listings in chrome
+  notifyemail : False       # sends email from SMTP client to email recipients (only if SMTP server is set up)
+  scrape all pages : False  # uses the "next page" button to retrieve all search results, when applicable
   email:
     - personToEmailResults1@gmail.com
     - personToEmailResults2@gmail.com
-  cities:             # cities to run searchURLs over (concatenated with states)
+  cities:                   # cities to run searchURLs over (concatenated with states)
+    - Dallas
     - Jacksonville
     - colorado springs
-  states:             # states to run searchURLs over (concatenated with cities)
+  states:                   # states to run searchURLs over (concatenated with cities)
     - kansas
     - Texas
-  searchURLs:         #make sure these searches have a min price set (even if it's 0) - listings with no price set will cause a runtime error at the moment.
+  searchURLs:               # Craislist URLs to search. See best practices in readme.md for creating effective searches
+    - https://dallas.craigslist.org/d/for-sale/search/sss?query=honda%20civic
     - https://dallas.craigslist.org/d/cars-trucks/search/cta?max_price=25000&min_price=1000&query=miata%20club%202016%7C2017%7C2018%7C2019%7C2020%7C2021&sort=date
     - https://dallas.craigslist.org/d/cars-trucks-by-owner/search/cto?min_price=0&query=s2000%7Cs2k%202000%7C2001%7C2002%7C2003%7C2004%7C2005%7C2006%7C2007%7C2008&sort=date

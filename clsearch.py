@@ -163,41 +163,75 @@ def get_search_strings(urls) -> list:
     return strings
 
 
-def scrape_and_log_results(cities, parameters, delay=0) -> list:
+def scrape_link(link, delay, get_next_page=False):
 
     listings = []
 
-    for string in parameters:
-        for city in cities:
+    while True:
+        try:
+            time.sleep(delay)
+            source = urllib.request.urlopen(link).read()
+        except SocketError as e:
+            print("SocketError: " + str(e))
+            continue
+        break
 
-            while True:
-                try:
-                    time.sleep(delay)
-                    source = urllib.request.urlopen("https://" + city + ".craigslist.org" + string).read()
-                except SocketError as e:
-                    print("SocketError: " + str(e))
-                    continue
-                break
+    cl_page = BeautifulSoup(source, 'lxml')
+    results = cl_page.find(id="search-results", class_='rows')
 
-            cl_page = BeautifulSoup(source, 'lxml')
-            results = cl_page.find(id="search-results",class_='rows')
+    for result in results.findAll(class_="result-info"):
 
-            for result in results.findAll(class_="result-info"):
-                data = dict(
-                    postID=result.find(class_='result-title hdrlnk').get('data-id'),
-                    listTitle=result.find(class_='result-heading').a.text,
-                    listDate=result.find(class_='result-date').get('title'),
-                    listDateTime=result.find(class_='result-date').get('datetime'),
-                    listPrice=result.find(class_='result-price').text,
-                    postURL=result.find(class_='result-title hdrlnk').get('href'))
+        if result.find(class_='result-price'):  # TODO all scrapes should be in this if/else format
+            list_price = result.find(class_='result-price').text
+        else:
+            list_price = "N/A"
 
-                if not data in listings:
-                    listings.append(data)
+        if result.find(class_='result-hood'):
+            neighborhood = result.find(class_='result-hood').text
+        else:
+            neighborhood = "N/A"
 
-    with open('results/results.yaml', 'w+') as outfile:
-        yaml.dump(listings, outfile, default_flow_style=False)
+        if result.find(class_='result-hood'):
+            neighborhood = result.find(class_='result-hood').text
+        else:
+            neighborhood = "N/A"
+
+        data = dict(
+            postID=result.find(class_='result-title hdrlnk').get('data-id'),
+            listTitle=result.find(class_='result-heading').a.text,
+            listDate=result.find(class_='result-date').get('title'),
+            listDateTime=result.find(class_='result-date').get('datetime'),
+            listPrice=list_price,
+            postURL=result.find(class_='result-title hdrlnk').get('href'),
+            postHood=neighborhood)
+
+        if not data in listings:
+            listings.append(data)
+
+    meta = cl_page.find(class_="no-js")
+    if get_next_page and meta.find("link", rel="next"):
+        if meta.find("link", rel="next"):
+            nextpage = meta.find("link", rel="next").get("href")
+            for listing in scrape_link(nextpage, delay, get_next_page):
+                listings.append(listing)
 
     return listings
+
+
+def scrape_and_log_results(cities, parameters, settings) -> list:
+
+    scraped_results = []
+
+    for string in parameters:
+        for city in cities:
+            searchurl = str("https://" + city + ".craigslist.org" + string)
+            for search_results in scrape_link(searchurl, settings.search_delay, settings.scrape_next):
+                scraped_results.append(search_results)
+
+    with open('results/results.yaml', 'w+') as outfile:
+        yaml.dump(scraped_results, outfile, default_flow_style=False)
+
+    return scraped_results
 
 
 def notify_if_changed(new_results, old_results, settings) -> None:
@@ -265,10 +299,10 @@ def print_scrape_overview(searchstrings, cities, settings) -> None:
     print(*cc, sep="\n")
 
     start = time.time()
-    scrape_and_log_results(cities, searchstrings, settings.search_delay)
+    results = scrape_and_log_results(cities, searchstrings, settings)
     end = time.time()
 
-    print("\nEXECUTING THESE " + str(len(searchstrings)*len(cities)) + " SCRAPES TAKES " + str(int(end) - int(start)) + " SECONDS.")
+    print("\nEXECUTING THESE " + str(len(searchstrings)*len(cities)) + " SCRAPES RETURNS " + str(len(results)) + " RESULTS IN " + str(int(end) - int(start)) + " SECONDS.")
 
 
 def searcher():
@@ -298,10 +332,11 @@ def searcher():
 
     cities = get_citycodes_from_citylist(settings.cities, settings.rosetta_path)   # import list of cities from settings
     states = settings.states
-    for state in states:
-        for city in get_citycodes_from_state(state, settings.rosetta_path):        # import list of states from settings
-            cities.append(city)     # append to list of cities
-    cities = list(set(cities))      # remove duplicates from cities list
+    if states:
+        for state in states:
+            for city in get_citycodes_from_state(state, settings.rosetta_path):        # import list of states from settings
+                cities.append(city)     # append to list of cities
+    cities = list(set(cities))          # remove duplicates from cities list
 
     searchstrings = get_search_strings(settings.search_urls)    # import search URLs from settings
 
@@ -309,7 +344,7 @@ def searcher():
 
     # This loop is the meat of the program
     while True:
-        newresults = scrape_and_log_results(cities, searchstrings, settings.search_delay)
+        newresults = scrape_and_log_results(cities, searchstrings, settings)
 
         if oldresults:
             notify_if_changed(newresults, oldresults, settings)
