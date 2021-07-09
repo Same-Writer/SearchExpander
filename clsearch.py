@@ -213,32 +213,44 @@ def scrape_link(link, delay, get_next_page=False):
     return listings
 
 
-def scrape_and_log_results(cities, parameters, settings) -> list:
+def save_to_yaml(results, append=False):
+    with open(results, 'w+') as outfile:
+        yaml.dump(results, outfile, default_flow_style=False)
+
+
+def scrape_and_save_results(cities, parameters, settings) -> list:
 
     scraped_results = []
 
     for string in parameters:
         for city in cities:
-            searchurl = str("https://" + city + ".craigslist.org" + string)
-            for search_results in scrape_link(searchurl, settings.search_delay, settings.scrape_next):
-                scraped_results.append(search_results)
+            searchurl = str("https://" + city + ".craigslist.org" + string) # build working CL URLs from city/search
+            results_on_page = scrape_link(searchurl, settings.search_delay, settings.scrape_next)   # scrape URL
+            for search_results in results_on_page:
+                scraped_results.append(search_results)      # build list of results
 
-    with open('results/results.yaml', 'w+') as outfile:
-        yaml.dump(scraped_results, outfile, default_flow_style=False)
+    save_to_yaml(settings.results_path)
 
     return scraped_results
 
 
 def notify_if_changed(new_results, old_results, settings) -> None:
 
+    changed = False
+    changes = []
+
     for new in new_results:
-        if not new in old_results:
+        if new not in old_results:
             #USE BLOCK FOR DEBUGGING UNEXPECTED NOTIFICATIONS
             #print("found new/changed result! " + str(new) + "\n\n")
             #print("new results:")
             #print(*new_results, sep="\n")
             #print("old results:")
             #print(*old_results, sep="\n")
+
+            changed = True
+            changes.append(new)
+
             title, body = pretty_listing(new)
             title, body_condensed = pretty_listing(new, True)
 
@@ -260,6 +272,8 @@ def notify_if_changed(new_results, old_results, settings) -> None:
                     open_url(site)
                 else:
                     print(str(site) + " is not a valid URL.")
+
+    return changed, changes
 
 
 def pretty_listing(listing, condensed=False) -> str:
@@ -298,7 +312,7 @@ def print_scrape_overview(searchstrings, cities, settings) -> None:
     print(*cc, sep="\n")
 
     start = time.time()
-    results = scrape_and_log_results(cities, searchstrings, settings)
+    results = scrape_and_save_results(cities, searchstrings, settings)
     end = time.time()
 
     print("\nEXECUTING THESE " + str(len(searchstrings)*len(cities)) + " SCRAPES RETURNS " + str(len(results)) + " RESULTS IN " + str(int(end) - int(start)) + " SECONDS.")
@@ -335,7 +349,7 @@ def searcher():
         for state in states:
             for city in get_citycodes_from_state(state, settings.rosetta_path):        # import list of states from settings
                 cities.append(city)     # append to list of cities
-    cities = list(set(cities))          # remove duplicates from cities list
+    cities = list(set(cities))          # remove duplicates from final cities list
 
     searchstrings = get_search_strings(settings.search_urls)    # import search URLs from settings
 
@@ -343,7 +357,7 @@ def searcher():
 
     # This loop is the meat of the program
     while True:
-        newresults = scrape_and_log_results(cities, searchstrings, settings)
+        newresults = scrape_and_save_results(cities, searchstrings, settings)
         if oldresults:
             notify_if_changed(newresults, oldresults, settings)
 
