@@ -14,6 +14,7 @@ import requests
 from bs4 import BeautifulSoup
 from socket import error as SocketError
 from sys import platform
+from alive_progress import alive_bar, config_handler
 
 sys.path.insert(1, 'lib/')
 from sendSMTP import send_email
@@ -218,12 +219,14 @@ def save_to_yaml(results, append=False):
         yaml.dump(results, outfile, default_flow_style=False)
 
 
-def scrape_and_save_results(cities, parameters, settings) -> list:
+def scrape_and_save_results(cities, parameters, settings, bar=None) -> list:
 
     scraped_results = []
 
     for string in parameters:
         for city in cities:
+            if bar:
+                bar()
             searchurl = str("https://" + city + ".craigslist.org" + string) # build working CL URLs from city/search
             results_on_page = scrape_link(searchurl, settings.search_delay, settings.scrape_next)   # scrape URL
             for search_results in results_on_page:
@@ -315,7 +318,7 @@ def print_scrape_overview(searchstrings, cities, settings) -> None:
     results = scrape_and_save_results(cities, searchstrings, settings)
     end = time.time()
 
-    print("\nEXECUTING THESE " + str(len(searchstrings)*len(cities)) + " SCRAPES RETURNS " + str(len(results)) + " RESULTS IN " + str(int(end) - int(start)) + " SECONDS.")
+    print("\nEXECUTING THESE " + str(len(searchstrings)*len(cities)) + " SCRAPES RETURNS " + str(len(results)) + " RESULTS IN " + str(int(end) - int(start)) + " SECONDS.\n")
 
 
 def searcher():
@@ -355,13 +358,16 @@ def searcher():
 
     print_scrape_overview(searchstrings, cities, settings)
 
-    # This loop is the meat of the program
-    while True:
-        newresults = scrape_and_save_results(cities, searchstrings, settings)
-        if oldresults:
-            notify_if_changed(newresults, oldresults, settings)
+    config_handler.set_global(length=6, bar='blocks')   # set up progress bar - refreshed for each search
+    with alive_bar(force_tty=True) as bar:
 
-        oldresults = newresults.copy()
+        # This loop is the meat of the program
+        while True:
+            newresults = scrape_and_save_results(cities, searchstrings, settings, bar)
+            if oldresults:
+                notify_if_changed(newresults, oldresults, settings)
+
+            oldresults = newresults.copy()
 
 
 if __name__ == "__main__":
