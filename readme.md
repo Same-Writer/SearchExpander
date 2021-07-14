@@ -1,10 +1,10 @@
 
 # Craigslist Scraper / Search Expander / Email Notification Client
-Application for scraping craigslist search results across multiple search strings, cities and states. Includes optional SMPT email notification client
+Application for scraping craigslist search results across multiple search strings, cities and states. Includes optional SMTP email notification client. For academic use only. 
 
 ## Install instructions [linux & macos]
 
-- Install Python3 
+- Install Python3 & git
 > sudo apt-get update \
 > sudo apt-get install python3 git \
 > __MACOS ONLY:__ go to Macintosh HD >> Applications >> python3.x >> Install Certificates.command
@@ -27,26 +27,17 @@ Application for scraping craigslist search results across multiple search string
 File location: **./etc/settings.yaml**
 
 Contains settings and search configurations for running the application. 
-
-### SMTP Client configuration
-* In order to configure email notifications, you must set up an SMTP server. This can be done for free with Gmail (limit of 100 messages sent / day). Current recommendation is to make a throw-away gmail address and use the email and PW for that account.
-* Once an account is created, you need to enable 'less secure apps'. Setting can be found at:
-  * Account >> Manage Your Google Account >> Security >> Less Secure Apps >> Turn on access.
-* Add this new SMTP account's email and password to etc/settings.yaml, and set 'send test : True' 
-* Moving this SMTP to a secure access method is a to-do item, but for now a throwaway gmail account the recommendation. 
   
 ### App Settings
 * __rosetta path__ :    File path to the rosetta file. See additional details on file below. 
-* __log results__ :     Currently non-functional. Will turn detailed logging on and off.
+* __debug log level__ : Currently non-functional. Will turn detailed logging on and off.
+* __save results__ :    Save results or not.  
 * __results path__ :    Path to save results. Will create file if none exists, but must be pointed to an existing directory.
-* __verbose__ :         Currently non-functional. Will toggle verbose command line output
-* __searchdelay__ :     Time delay in between URL queries. Use this to reduce load on your internet link, if needed
   
-### Search Parameters
-* __run__ :             Currently non-functional. Toggle running these search parameters or not.
-* __openbrowser__ :     When a new / changed listing is detected, open the listing's URL in a new chrome tab. 
-* __notifyemail__ :     When a new / changed listing is detected, use the configured SMTP server to send an email to recipients listed in the 'email' field below. 
-* __email__:            Email Recipients in a list below. Use an indented hyphen for each recipient
+### Search Settings
+* __run__ :             Currently non-functional. Toggle running this search or not.
+* __scrape all pages__ : When a search result has multiple pages of results, should we scrape past page 1?   
+* __searchdelay__ :     Time delay in between URL queries. Use this to reduce load on your internet link, if needed
 * __cities__:           These are the cities that your search(es) will be run across. 
     * Use the city name that you see on https://www.craigslist.org/about/sites, or check rosetta.yaml for a valid city name.
     * Searches for cities specified here will be combined with cities in the states listed below.
@@ -57,6 +48,26 @@ Contains settings and search configurations for running the application.
     * Set up your full search with filters on craigslist.org and copy-paste the URL into these bulleted-fields
     * BEST PRACTICE: Use search narrowing methods, listed here to block out 'noise' in your search: https://www.craigslist.org/about/help/search
     * BEST PRACTICE: Sort by 'newest' rather than relevant. We don't dig past the first page of results, so make sure the latest results are on top. 
+  
+### SMTP Settings
+* __address__ : email address associated with the smtp server
+* __password__ : password for email account associated with smtp server. WARNING: plain test passwords are dangerous - use at your own risk.
+* __send test__ : should we send a test email at the beginning of the run? This is recommended if you're trying to set smtp up for the first time.
+* __host__ : host address for smtp server. gmail default = smtp.gmail.com
+* __port__ : port for smtp server. gmail default = 587
+
+#### Other SMTP setup notes:
+  * In order to configure email notifications, you must set up an SMTP server. This can be done for free with Gmail (limit of 100 messages sent / day). Current recommendation is to make a throw-away gmail address and use the email and PW for that account.
+  * Once an account is created, you need to enable 'less secure apps'. Setting can be found at:
+    * Account >> Manage Your Google Account >> Security >> Less Secure Apps >> Turn on access.
+  * Add this new SMTP account's email and password to etc/settings.yaml, and set 'notifyemail : True'
+  * Moving this SMTP to a secure access method is a to-do item, but for now a throwaway gmail account the recommendation. 
+
+### Notofication Settings
+* __openbrowser__ :     When a new / changed listing is detected, open the listing's URL in a new chrome tab. 
+* __notifyemail__ :     When a new / changed listing is detected, use the configured SMTP server to send an email to recipients listed in the 'email' field below. 
+* __email recipients__ :Email Recipients in a list below. Use an indented hyphen for each recipient
+
 
 **./etc/rosetta.yaml**
 
@@ -73,7 +84,7 @@ ToDo - these do nothing now. They'll include setup and run for the program. For 
 
 **./etc/tests/**
 
-These contain various tests for this app. 
+These contain various tests for this app & its components. 
 
 
 SEO: Craigslist, scraper, scraping, facebook marketplace, email, notification, craigslist state, scrape and notify 

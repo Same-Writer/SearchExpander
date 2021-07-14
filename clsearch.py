@@ -7,6 +7,7 @@
 import argparse
 import sys
 import time
+from datetime import datetime
 import urllib.request
 import webbrowser
 import yaml
@@ -15,10 +16,13 @@ from bs4 import BeautifulSoup
 from socket import error as SocketError
 from sys import platform
 from alive_progress import alive_bar, config_handler
+import logging
 
 sys.path.insert(1, 'lib/')
 from sendSMTP import send_email
 from settingsparse import SettingsParser
+
+logger = logging.getLogger('SearchExpander')
 
 
 def import_rosetta(file):
@@ -56,8 +60,10 @@ def uri_exists_stream(uri: str) -> bool:
                 response.raise_for_status()
                 return True
             except requests.exceptions.HTTPError:
+                logger.info("Accessing " + str(uri) + " not successful")
                 return False
     except requests.exceptions.ConnectionError:
+        logger.info("Accessing " + str(uri) + " not successful")
         return False
 
 
@@ -73,6 +79,8 @@ def open_url(url) -> None:
         #chrome_path = '/usr/bin/google-chrome %s'
         pass
 
+    logger.info("Accessing: " + str(url) + 'in Chrome')
+    logger.info("Chrome path: " + str(chrome_path))
     webbrowser.get(chrome_path).open(url)
 
 
@@ -105,6 +113,8 @@ def get_citycodes_from_state(state, rosetta_path) -> list:
 
     citycodes = list(set(citycodes))        #remove duplicates
 
+    logger.info("States -> CityURLs from rosetta.txt... State: " + state + " Cities: " + str(citycodes))
+
     return citycodes
 
 
@@ -121,7 +131,7 @@ def get_citycodes_from_citylist(citylist, rosetta_path) -> list:
                 if c.lower() == cc.lower():
                     i += 1
         if i > 1:
-            print("\nWARNING: Found multiple cities named \'" + str(c) + "\'. Try adding \'<two letter state code>-\' to your city. e.g. \'jacksonville\' becomes either \'fl-jacksonville\' or \'nc-jacksonville\'.")
+            logger.warning("Found multiple cities named \'" + str(c) + "\'. Try adding \'<two letter state code>-\' to your city. e.g. \'jacksonville\' becomes either \'fl-jacksonville\' or \'nc-jacksonville\'.")
         i=0
 
     for key, value in rs.items():       # Adds citycodes to list
@@ -131,6 +141,8 @@ def get_citycodes_from_citylist(citylist, rosetta_path) -> list:
                 citycodes.append(y)
 
     citycodes = list(set(citycodes))  # remove duplicates
+
+    logger.info("Cities -> CityURLs from rosetta.txt: " + str(citycodes))
 
     return citycodes
 
@@ -148,8 +160,8 @@ def get_city_state_from_citycode(citycodes, rosetta_path) -> list:
                     break
 
     cities_states.pop(0)
-    #print("number of citycodes entered: " + str(len(citycodes)))
-    #print("number of citiesstates objects created: " + str(len(cities_states)))
+    logger.info("number of citycodes entered: " + str(len(citycodes)))
+    logger.info("number of citiesstates objects created: " + str(len(cities_states)))
 
     return cities_states
 
@@ -161,6 +173,8 @@ def get_search_strings(urls) -> list:
     for item in urls:
         s = item.split("craigslist.org", 1)[1].rstrip()
         strings.append(s)
+
+    logger.info("Search Strings to be used: " + str(strings))
 
     return strings
 
@@ -217,6 +231,7 @@ def scrape_link(link, delay, get_next_page=False):
 def save_to_yaml(results, append=False):
     with open(results, 'w+') as outfile:
         yaml.dump(results, outfile, default_flow_style=False)
+        #logger.info("Dumping results to " + str(results))
 
 
 def scrape_and_save_results(cities, parameters, settings, bar=None) -> list:
@@ -244,12 +259,8 @@ def notify_if_changed(new_results, old_results, settings) -> None:
 
     for new in new_results:
         if new not in old_results:
-            #USE BLOCK FOR DEBUGGING UNEXPECTED NOTIFICATIONS
-            #print("found new/changed result! " + str(new) + "\n\n")
-            #print("new results:")
-            #print(*new_results, sep="\n")
-            #print("old results:")
-            #print(*old_results, sep="\n")
+            logger.info("NEW/CHANGED RESULT: " + str(new))
+            logger.info("Previously stored results: " + str(old_results))
 
             changed = True
             changes.append(new)
@@ -259,8 +270,7 @@ def notify_if_changed(new_results, old_results, settings) -> None:
 
             if settings.notify_email:
                 send_email(
-                    settings.smtp_addr,
-                    settings.smtp_pw,
+                    settings,
                     title,
                     body,
                     settings.email_recipients)
@@ -290,7 +300,9 @@ def pretty_listing(listing, condensed=False) -> str:
                    + "Date: " + listing["listDate"] + "\n"
                    + "URL: " + listing["postURL"] + "\n"
                    + "Post ID: " + listing["postID"])
-
+    logger.info("Condensed = " + condensed)
+    logger.info(title)
+    logger.info(body)
     return title, body
 
 
@@ -337,11 +349,25 @@ def searcher():
 
     settings.parse_settings()                           # parse settings
 
+    logger.setLevel(settings.log_level)                             # configure logging
+    filehandler_dbg = logging.FileHandler('log/' + logger.name + '-debug.log', mode='w')
+    filehandler_dbg.setLevel('DEBUG')
+    streamformatter = logging.Formatter(fmt='%(levelname)s:%(threadName)s:%(funcName)s:\t\t%(message)s',
+                                        datefmt='%H:%M:%S')  # We only want to see certain parts of the message
+    filehandler_dbg.setFormatter(streamformatter)
+    logger.addHandler(filehandler_dbg)
+
+    logger.info("Run started on : " + str(datetime.now()) + "\n")
+    logger.info("Settings File: " + settings.settings_path)
+
+    # loop over a list of all non-method attributes of the settings class, log names and values.
+    for prop in [a for a in dir(settings) if not a.startswith('__') and not callable(getattr(settings, a))]:
+        logger.info(prop + " = " + str(eval('settings.%s' %prop)))
+
     if settings.notify_email and settings.smtp_test:    # send test email, if enabled
-        print("\nSending test email to recipients in settings.txt...")
+        logger.info("Sending test email to recipients in settings.txt")
         send_email(
-            settings.smtp_addr,
-            settings.smtp_pw,
+            settings,
             "Test Email",
             str("Sending test notification email."),
             settings.email_recipients)
@@ -353,6 +379,7 @@ def searcher():
             for city in get_citycodes_from_state(state, settings.rosetta_path):        # import list of states from settings
                 cities.append(city)     # append to list of cities
     cities = list(set(cities))          # remove duplicates from final cities list
+    logger.info("All CityURLs (duplicates removed): " + str(cities))
 
     searchstrings = get_search_strings(settings.search_urls)    # import search URLs from settings
 
@@ -366,6 +393,10 @@ def searcher():
             newresults = scrape_and_save_results(cities, searchstrings, settings, bar)
             if oldresults:
                 notify_if_changed(newresults, oldresults, settings)
+            else:
+                logger.info("First full scrape results: ")
+                for listing in newresults:
+                    logger.info(listing)
 
             oldresults = newresults.copy()
 

@@ -10,5 +10,8 @@ results/*
 samsettings.yaml
 
 *.pyc
-
 .idea/*
+
+#logs
+log/*
+!log/.gitkeep
