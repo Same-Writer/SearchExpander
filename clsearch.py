@@ -351,7 +351,7 @@ def searcher():
     settings.parse_settings()                           # parse settings
 
     logger.setLevel('INFO')                             # configure logging
-    filehandler_dbg = logging.FileHandler(logger.name + '-debug.log', mode='w')
+    filehandler_dbg = logging.FileHandler('log/' + logger.name + '-debug.log', mode='w')
     filehandler_dbg.setLevel('DEBUG')
     streamformatter = logging.Formatter(fmt='%(levelname)s:%(threadName)s:%(funcName)s:\t\t%(message)s',
                                         datefmt='%H:%M:%S')  # We only want to see certain parts of the message
