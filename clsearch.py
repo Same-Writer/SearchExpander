@@ -7,6 +7,7 @@
 import argparse
 import sys
 import time
+from datetime import datetime
 import urllib.request
 import webbrowser
 import yaml
@@ -15,10 +16,13 @@ from bs4 import BeautifulSoup
 from socket import error as SocketError
 from sys import platform
 from alive_progress import alive_bar, config_handler
+import logging
 
 sys.path.insert(1, 'lib/')
 from sendSMTP import send_email
 from settingsparse import SettingsParser
+
+logger = logging.getLogger('SearchExpander')
 
 
 def import_rosetta(file):
@@ -337,8 +341,25 @@ def searcher():
 
     settings.parse_settings()                           # parse settings
 
+    logger.setLevel('INFO')
+
+    filehandler_dbg = logging.FileHandler(logger.name + '-debug.log', mode='w')
+    filehandler_dbg.setLevel('DEBUG')
+
+    streamformatter = logging.Formatter(fmt='%(levelname)s:%(threadName)s:%(funcName)s:\t\t%(message)s',
+                                        datefmt='%H:%M:%S')  # We only want to see certain parts of the message
+
+    filehandler_dbg.setFormatter(streamformatter)
+
+    logger.addHandler(filehandler_dbg)
+    logger.info("Run started on : " + str(datetime.now()) + "\t")
+    logger.info("Settings File: " + settings.settings_path)
+
+    for prop in [a for a in dir(settings) if not a.startswith('__') and not callable(getattr(settings, a))]:
+        logger.info(prop + " = " + str(eval('settings.%s' %prop)))
+
     if settings.notify_email and settings.smtp_test:    # send test email, if enabled
-        print("\nSending test email to recipients in settings.txt...")
+        logging.info("Sending test email to recipients in settings.txt:")
         send_email(
             settings.smtp_addr,
             settings.smtp_pw,

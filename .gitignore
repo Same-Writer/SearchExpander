@@ -12,3 +12,4 @@ samsettings.yaml
 *.pyc
 
 .idea/*
+/SearchExpander-debug.log
