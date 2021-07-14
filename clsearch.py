@@ -325,12 +325,12 @@ def print_scrape_overview(searchstrings, cities, settings) -> None:
     print(*ss, sep="\n")
     print("\nOVER THE FOLLOWING CITIES:\n")
     print(*cc, sep="\n")
-
+    print("\nSETTING UP, PLEASE WAIT...\n")
     start = time.time()
     results = scrape_and_save_results(cities, searchstrings, settings)
     end = time.time()
 
-    print("\nEXECUTING THESE " + str(len(searchstrings)*len(cities)) + " SCRAPES RETURNS " + str(len(results)) + " RESULTS IN " + str(int(end) - int(start)) + " SECONDS.\n")
+    print("EXECUTING THESE " + str(len(searchstrings)*len(cities)) + " SCRAPES RETURNS " + str(len(results)) + " RESULTS IN " + str(int(end) - int(start)) + " SECONDS.\n")
 
 
 def searcher():

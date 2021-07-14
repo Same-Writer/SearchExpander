@@ -30,13 +30,13 @@ Contains settings and search configurations for running the application.
   
 ### App Settings
 * __rosetta path__ :    File path to the rosetta file. See additional details on file below. 
-* __debug log level__ : Currently non-functional. Will turn detailed logging on and off.
-* __save results__ :    Save results or not.  
-* __results path__ :    Path to save results. Will create file if none exists, but must be pointed to an existing directory.
+* __debug log level__ : Sets log level to be used. Valid values are INFO, WARNING, ERROR.
+* __save results__ :    Currently non-functional. Save results to <results path> or not.  
+* __results path__ :    Path & file name for results. Will create file if none exists, but must be pointed to an existing directory.
   
 ### Search Settings
 * __run__ :             Currently non-functional. Toggle running this search or not.
-* __scrape all pages__ : When a search result has multiple pages of results, should we scrape past page 1?   
+* __scrape all pages__ : When a search result has multiple pages of results, should we scrape past the first page?   
 * __searchdelay__ :     Time delay in between URL queries. Use this to reduce load on your internet link, if needed
 * __cities__:           These are the cities that your search(es) will be run across. 
     * Use the city name that you see on https://www.craigslist.org/about/sites, or check rosetta.yaml for a valid city name.
