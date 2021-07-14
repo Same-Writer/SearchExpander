@@ -7,9 +7,12 @@ class SettingsParser:
     smtp_addr = ""
     smtp_pw = ""
     smtp_test = True
+    smtp_host = "smtp.gmail.com"
+    smtp_port = 587
 
     rosetta_path = ""
     log_results = True
+    log_level = 'INFO'
     results_path = ""
     verbose = True
     search_delay = 0
@@ -35,27 +38,31 @@ class SettingsParser:
 
         stream = self._open_yaml(self.settings_path)
 
-        smtp = stream["SMTP Client"]
+        smtp = stream["SMTP Settings"]
         self.smtp_addr = smtp['address']
         self.smtp_pw = smtp['password']
         self.smtp_test = smtp['send test']
+        self.smtp_host = smtp['host']
+        self.smtp_port = smtp['port']
 
         app_settings = stream["App Settings"]
         self.rosetta_path = app_settings['rosetta path']
-        self.log_results = app_settings['log results']
+        self.log_results = app_settings['save results']
+        self.log_level = app_settings['debug log level']
         self.results_path = app_settings['results path']
-        self.verbose = app_settings['verbose']
-        self.search_delay = app_settings["search delay"]
 
-        search_parameters = stream["Search Parameters"]
+        search_parameters = stream["Search Settings"]
         self.run = search_parameters['run']
-        self.open_browser = search_parameters['openbrowser']
-        self.notify_email = search_parameters['notifyemail']
         self.scrape_next = search_parameters['scrape all pages']
-        self.email_recipients = search_parameters['email']
+        self.search_delay = search_parameters["search delay"]
         self.cities = search_parameters['cities']
         self.states = search_parameters['states']
         self.search_urls = search_parameters['searchURLs']
+
+        notification = stream["Notification Settings"]
+        self.open_browser = notification['openbrowser']
+        self.notify_email = notification['notifyemail']
+        self.email_recipients = notification['email recipients']
 
         return None
 

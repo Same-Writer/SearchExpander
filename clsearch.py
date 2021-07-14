@@ -270,8 +270,7 @@ def notify_if_changed(new_results, old_results, settings) -> None:
 
             if settings.notify_email:
                 send_email(
-                    settings.smtp_addr,
-                    settings.smtp_pw,
+                    settings,
                     title,
                     body,
                     settings.email_recipients)
@@ -350,7 +349,7 @@ def searcher():
 
     settings.parse_settings()                           # parse settings
 
-    logger.setLevel('INFO')                             # configure logging
+    logger.setLevel(settings.log_level)                             # configure logging
     filehandler_dbg = logging.FileHandler('log/' + logger.name + '-debug.log', mode='w')
     filehandler_dbg.setLevel('DEBUG')
     streamformatter = logging.Formatter(fmt='%(levelname)s:%(threadName)s:%(funcName)s:\t\t%(message)s',
@@ -368,8 +367,7 @@ def searcher():
     if settings.notify_email and settings.smtp_test:    # send test email, if enabled
         logger.info("Sending test email to recipients in settings.txt")
         send_email(
-            settings.smtp_addr,
-            settings.smtp_pw,
+            settings,
             "Test Email",
             str("Sending test notification email."),
             settings.email_recipients)
