@@ -51,6 +51,19 @@ def parse_args():
     return args
 
 
+def configure_logger(settings):
+
+    logger.setLevel(settings.log_level)  # configure logging
+    filehandler_dbg = logging.FileHandler('log/' + logger.name + '-debug.log', mode='w')
+    print("Detailed Logging at: log/" + logger.name + '-debug.log')
+
+    filehandler_dbg.setLevel('DEBUG')
+    streamformatter = logging.Formatter(fmt='%(levelname)s:%(threadName)s:%(funcName)s:\t\t%(message)s',
+                                        datefmt='%H:%M:%S')  # We only want to see certain parts of the message
+    filehandler_dbg.setFormatter(streamformatter)
+    logger.addHandler(filehandler_dbg)
+
+
 def uri_exists_stream(uri: str) -> bool:
     # checks that a given link exists. supposedly does this w/o loading all data from site
 
@@ -349,13 +362,7 @@ def searcher():
 
     settings.parse_settings()                           # parse settings
 
-    logger.setLevel(settings.log_level)                             # configure logging
-    filehandler_dbg = logging.FileHandler('log/' + logger.name + '-debug.log', mode='w')
-    filehandler_dbg.setLevel('DEBUG')
-    streamformatter = logging.Formatter(fmt='%(levelname)s:%(threadName)s:%(funcName)s:\t\t%(message)s',
-                                        datefmt='%H:%M:%S')  # We only want to see certain parts of the message
-    filehandler_dbg.setFormatter(streamformatter)
-    logger.addHandler(filehandler_dbg)
+    configure_logger(settings)
 
     logger.info("Run started on : " + str(datetime.now()) + "\n")
     logger.info("Settings File: " + settings.settings_path)
@@ -386,9 +393,9 @@ def searcher():
     print_scrape_overview(searchstrings, cities, settings)
 
     config_handler.set_global(length=6, bar='blocks')   # set up progress bar - refreshed for each search
-    with alive_bar(force_tty=True) as bar:
 
-        # This loop is the meat of the program
+    # This loop is the meat of the program
+    with alive_bar(force_tty=True) as bar:
         while True:
             newresults = scrape_and_save_results(cities, searchstrings, settings, bar)
             if oldresults:
