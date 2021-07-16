@@ -11,10 +11,9 @@ class SettingsParser:
     smtp_port = 587
 
     rosetta_path = ""
-    log_results = True
+    save_results = True
     log_level = 'INFO'
     results_path = ""
-    verbose = True
     search_delay = 0
 
     run = True
@@ -47,7 +46,7 @@ class SettingsParser:
 
         app_settings = stream["App Settings"]
         self.rosetta_path = app_settings['rosetta path']
-        self.log_results = app_settings['save results']
+        self.save_results = app_settings['save results']
         self.log_level = app_settings['debug log level']
         self.results_path = app_settings['results path']
 

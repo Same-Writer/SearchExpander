@@ -241,8 +241,8 @@ def scrape_link(link, delay, get_next_page=False):
     return listings
 
 
-def save_to_yaml(results, append=False):
-    with open(results, 'w+') as outfile:
+def save_to_yaml(results, path, append=False):
+    with open(path, 'w+') as outfile:
         yaml.dump(results, outfile, default_flow_style=False)
         #logger.info("Dumping results to " + str(results))
 
@@ -260,46 +260,94 @@ def scrape_and_save_results(cities, parameters, settings, bar=None) -> list:
             for search_results in results_on_page:
                 scraped_results.append(search_results)      # build list of results
 
-    save_to_yaml(settings.results_path)
+    scraped_results = [dict(t) for t in {tuple(d.items()) for d in scraped_results}]    # remove identical duplicates
+
+    if settings.save_results:
+        save_to_yaml(scraped_results, settings.results_path)
 
     return scraped_results
 
 
 def notify_if_changed(new_results, old_results, settings) -> None:
 
-    changed = False
-    changes = []
+    new_posts = []
+    missing_posts = []
 
     for new in new_results:
         if new not in old_results:
-            logger.info("NEW/CHANGED RESULT: " + str(new))
+            logger.info("NEW RESULT: " + str(new))
             logger.info("Previously stored results: " + str(old_results))
 
-            changed = True
-            changes.append(new)
+            new_posts.append(new)
 
-            title, body = pretty_listing(new)
-            title, body_condensed = pretty_listing(new, True)
+    for old in old_results:
+        if not old in new_results:
+            logger.info("REMOVED RESULT: " + str(new))
+            logger.info("Previously stored results: " + str(old_results))
 
-            if settings.notify_email:
-                send_email(
-                    settings,
-                    title,
-                    body,
-                    settings.email_recipients)
-                print("Email Sent!!!")
+            missing_posts.append(new)
 
-            site = new.get('postURL')
+    if new_posts and missing_posts:
+        logger.info("suspect changed posts: ")
+        logger.info("New Post(s): " + str(new_posts))
+        logger.info("Missing Post(s): " + str(missing_posts))
+        for i, new in enumerate(new_posts):
+            for j, missing in enumerate(missing_posts):
+                if new.get('postID') == missing.get('postID'):
+                    title = "Listing Updated: "
+                    newt, body = pretty_listing(new)
+                    title = title + newt
+                    t1, body1 = pretty_listing(missing)
 
-            if settings.open_browser:
-                if uri_exists_stream(site):
-                    open_url(site)
-                elif uri_exists_stream(site):  # try a second time, just to be sure
-                    open_url(site)
-                else:
-                    print(str(site) + " is not a valid URL.")
+                    body = str(body + "\nUPDATED TO\n" + body1)
 
-    return changed, changes
+                    logger.info("UPDATE to " + new.get('postID') + ":")
+                    logger.info(str(new) + " ->\n" + str(missing))
+
+                    if settings.notify_email:
+                        send_email(
+                            settings,
+                            title,
+                            body,
+                            settings.email_recipients)
+                        print("Email Sent!!!")
+
+                    new_posts.pop[i]
+                    missing_posts.pop[j]
+
+    for new in new_posts:
+        title, body = pretty_listing(new)
+
+        if settings.notify_email:
+            send_email(
+                settings,
+                title,
+                body,
+                settings.email_recipients)
+            print("Email Sent!!!")
+
+        site = new.get('postURL')
+
+        if settings.open_browser:
+            if uri_exists_stream(site):
+                open_url(site)
+            elif uri_exists_stream(site):  # try a second time, just to be sure
+                open_url(site)
+            else:
+                print(str(site) + " is not a valid URL.")
+
+    for missing in missing_posts:
+        title, body = pretty_listing(missing)
+        title = str("REMOVED: " + str(datetime.now()) + title)
+        if settings.notify_email:
+            send_email(
+                settings,
+                title,
+                body,
+                settings.email_recipients)
+            print("Email Sent!!!")
+
+    return
 
 
 def pretty_listing(listing, condensed=False) -> str:
@@ -313,7 +361,7 @@ def pretty_listing(listing, condensed=False) -> str:
                    + "Date: " + listing["listDate"] + "\n"
                    + "URL: " + listing["postURL"] + "\n"
                    + "Post ID: " + listing["postID"])
-    logger.info("Condensed = " + condensed)
+    logger.info("Condensed = " + str(condensed))
     logger.info(title)
     logger.info(body)
     return title, body
