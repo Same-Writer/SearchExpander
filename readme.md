@@ -31,7 +31,7 @@ Contains settings and search configurations for running the application.
 ### App Settings
 * __rosetta path__ :    File path to the rosetta file. See additional details on file below. 
 * __debug log level__ : Sets log level to be used. Valid values are INFO, WARNING, ERROR.
-* __save results__ :    Currently non-functional. Save results to <results path> or not.  
+* __save results__ :    Save results to <results path> or not.  
 * __results path__ :    Path & file name for results. Will create file if none exists, but must be pointed to an existing directory.
   
 ### Search Settings

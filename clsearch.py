@@ -273,50 +273,57 @@ def notify_if_changed(new_results, old_results, settings) -> None:
     new_posts = []
     missing_posts = []
 
-    for new in new_results:
+    for new in new_results:                 # check for new/changed listings
         if new not in old_results:
-            logger.info("NEW RESULT: " + str(new))
-            logger.info("Previously stored results: " + str(old_results))
+            logger.info("NEW/CHANGED RESULT: " + str(new))
+            logger.info("Newest results (new_results): ")
+            for result in new_results:
+                logger.info(result)
+            logger.info("Previously stored results (old_results): ")
+            for result in old_results:
+                logger.info(result)
 
             new_posts.append(new)
 
-    for old in old_results:
-        if not old in new_results:
-            logger.info("REMOVED RESULT: " + str(new))
-            logger.info("Previously stored results: " + str(old_results))
+    for old in old_results:                 # check for removed listings
+        if old not in new_results:
+            logger.info("REMOVED RESULT: " + str(old))
+            logger.info("Newest results (new_results): ")
+            for result in new_results:
+                logger.info(result)
+            logger.info("Previously stored results (old_results): ")
+            for result in old_results:
+                logger.info(result)
 
-            missing_posts.append(new)
+            missing_posts.append(old)
 
-    if new_posts and missing_posts:
-        logger.info("suspect changed posts: ")
-        logger.info("New Post(s): " + str(new_posts))
-        logger.info("Missing Post(s): " + str(missing_posts))
-        for i, new in enumerate(new_posts):
-            for j, missing in enumerate(missing_posts):
-                if new.get('postID') == missing.get('postID'):
-                    title = "Listing Updated: "
-                    newt, body = pretty_listing(new)
-                    title = title + newt
-                    t1, body1 = pretty_listing(missing)
+    if new_posts or missing_posts:
+        logger.info("new_posts detected: " + str(new_posts))
+        logger.info("missing_posts detected: " + str(missing_posts))
 
-                    body = str(body + "\nUPDATED TO\n" + body1)
+    for i, new in enumerate(new_posts):     # find and handle changed posts (postID present in new & old inputs)
+        for old in old_results:
+            if new.get('postID') == old.get('postID'):
+                logger.info('POST UPDATED:')
+                logger.info(str(new) + " ->")
+                logger.info(str(old))
 
-                    logger.info("UPDATE to " + new.get('postID') + ":")
-                    logger.info(str(new) + " ->\n" + str(missing))
+                title, body = pretty_listing(new)
+                title = str("UPDATED: " + title)
+                if settings.notify_email:
+                    send_email(
+                        settings,
+                        title,
+                        body,
+                        settings.email_recipients)
+                    print("Email Sent!!!")
 
-                    if settings.notify_email:
-                        send_email(
-                            settings,
-                            title,
-                            body,
-                            settings.email_recipients)
-                        print("Email Sent!!!")
+                new_posts.pop(i)            # remove changed post from new_posts
 
-                    new_posts.pop[i]
-                    missing_posts.pop[j]
-
-    for new in new_posts:
+    for new in new_posts:                   # handle new posts left in new_posts
         title, body = pretty_listing(new)
+        logger.info('NEW POST DETECTED: ')
+        logger.info(str(new))
 
         if settings.notify_email:
             send_email(
@@ -336,7 +343,13 @@ def notify_if_changed(new_results, old_results, settings) -> None:
             else:
                 print(str(site) + " is not a valid URL.")
 
-    for missing in missing_posts:
+    for i, missing in enumerate(missing_posts):           # logic to avoid false removal notifications
+        for new in new_results:
+            if missing.get('postID') == new.get('postID'):
+                logger.info("changed post detected as missing, ignoring")
+                missing_posts.pop(i)
+
+    for missing in missing_posts:           # handle removed posts
         title, body = pretty_listing(missing)
         title = str("REMOVED: " + str(datetime.now()) + title)
         if settings.notify_email:
@@ -361,9 +374,6 @@ def pretty_listing(listing, condensed=False) -> str:
                    + "Date: " + listing["listDate"] + "\n"
                    + "URL: " + listing["postURL"] + "\n"
                    + "Post ID: " + listing["postID"])
-    logger.info("Condensed = " + str(condensed))
-    logger.info(title)
-    logger.info(body)
     return title, body
 
 
