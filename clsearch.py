@@ -8,6 +8,7 @@ import argparse
 import sys
 import time
 from datetime import datetime
+from datetime import date
 import urllib.request
 import webbrowser
 import yaml
@@ -55,7 +56,7 @@ def configure_logger(settings):
 
     logger.setLevel(settings.log_level)  # configure logging
     filehandler_dbg = logging.FileHandler('log/' + logger.name + '-debug.log', mode='w')
-    print("Detailed Logging at: log/" + logger.name + '-debug.log')
+    print("Log location: log/" + logger.name + '-debug.log')
 
     filehandler_dbg.setLevel('DEBUG')
     streamformatter = logging.Formatter(fmt='%(levelname)s:%(threadName)s:%(funcName)s:\t\t%(message)s',
@@ -82,6 +83,7 @@ def uri_exists_stream(uri: str) -> bool:
 
 def open_url(url) -> None:
 
+    logger.debug("detected platform: " + str(platform))
     if platform == "darwin":
         chrome_path = 'open -a /Applications/Google\ Chrome.app %s'
     elif platform == "win32":
@@ -103,21 +105,30 @@ def open_searches_chrome(cities, parameters) -> None:
         for city in cities:
             site = str("https://" + str(city) + ".craigslist.org" + string)
             if uri_exists_stream(site):
+                logger.debug("Opening URL: " + str(site))
                 open_url(site)
             elif uri_exists_stream(site):   # try a second time, just to be sure
+                logger.debug("Opening URL: " + str(site) + " failed. Trying again.")
                 open_url(site)
             else:
-                print("https://" + city + ".craigslist.org is not a valid URL.")
+                logger.warning("Opening URL: " + str(site) + " failed.")
+                print("Opening URL: " + str(site) + " failed.")
+
             time.sleep(.1)  # helps mitigate warnings thrown from chrome
     if not cities:
-        print("No cities or states provided to search. add cities and states to settings.yaml")
+        logger.debug("No cities or states provided to search. add cities and states to settings.yaml")
 
 
 def get_citycodes_from_state(state, rosetta_path) -> list:
 
     citycodes = []
 
-    rs = import_rosetta("etc/rosetta.yaml")
+    if rosetta_path:
+        rs = import_rosetta(rosetta_path)
+    else:
+        rs = import_rosetta("etc/rosetta.yaml")
+
+    logger.debug("using rosetta path: " + str(rs))
 
     for key, value in rs.items():
         if key.lower() == state.lower():
@@ -136,7 +147,12 @@ def get_citycodes_from_citylist(citylist, rosetta_path) -> list:
     citycodes = []
     i=0
 
-    rs = import_rosetta("etc/rosetta.yaml")
+    if rosetta_path:
+        rs = import_rosetta(rosetta_path)
+    else:
+        rs = import_rosetta("etc/rosetta.yaml")
+
+    logger.debug("using rosetta path: " + str(rs))
 
     for c in citylist:              # Logic to check that cities specified in settings.yaml are unique. Print warning if not.
         for state in rs:
@@ -144,7 +160,7 @@ def get_citycodes_from_citylist(citylist, rosetta_path) -> list:
                 if c.lower() == cc.lower():
                     i += 1
         if i > 1:
-            logger.warning("Found multiple cities named \'" + str(c) + "\'. Try adding \'<two letter state code>-\' to your city. e.g. \'jacksonville\' becomes either \'fl-jacksonville\' or \'nc-jacksonville\'.")
+            logger.warning("\nFound multiple cities named \'" + str(c) + "\'. Try adding \'<two letter state code>-\' to your city. e.g. \'jacksonville\' becomes either \'fl-jacksonville\' or \'nc-jacksonville\'.\n")
         i=0
 
     for key, value in rs.items():       # Adds citycodes to list
@@ -173,8 +189,8 @@ def get_city_state_from_citycode(citycodes, rosetta_path) -> list:
                     break
 
     cities_states.pop(0)
-    logger.info("number of citycodes entered: " + str(len(citycodes)))
-    logger.info("number of citiesstates objects created: " + str(len(cities_states)))
+    logger.debug("number of citycodes entered: " + str(len(citycodes)))
+    logger.debug("number of citiesstates objects created: " + str(len(cities_states)))
 
     return cities_states
 
@@ -195,7 +211,7 @@ def get_search_strings(urls) -> list:
 def scrape_link(link, delay, get_next_page=False):
 
     listings = []
-    #print(link)
+    logger.debug("Scraping link: " + str(link))
     while True:
         try:
             time.sleep(delay)
@@ -244,7 +260,7 @@ def scrape_link(link, delay, get_next_page=False):
 def save_to_yaml(results, path, append=False):
     with open(path, 'w+') as outfile:
         yaml.dump(results, outfile, default_flow_style=False)
-        #logger.info("Dumping results to " + str(results))
+        logger.debug("Dumping results to " + str(path))
 
 
 def scrape_and_save_results(cities, parameters, settings, bar=None) -> list:
@@ -255,14 +271,18 @@ def scrape_and_save_results(cities, parameters, settings, bar=None) -> list:
         for city in cities:
             if bar:
                 bar()
-            searchurl = str("https://" + city + ".craigslist.org" + string) # build working CL URLs from city/search
-            results_on_page = scrape_link(searchurl, settings.search_delay, settings.scrape_next)   # scrape URL
+            searchurl = str("https://" + city + ".craigslist.org" + string)    # build working CL URLs from city/search
+            logger.debug(searchurl)
+            results_on_page = scrape_link(searchurl, settings.search_delay, settings.scrape_next)       # scrape URL
             for search_results in results_on_page:
                 scraped_results.append(search_results)      # build list of results
 
-    scraped_results = [dict(t) for t in {tuple(d.items()) for d in scraped_results}]    # remove identical duplicates
+    scraped_results = [dict(t) for t in {tuple(d.items()) for d in scraped_results}]       # remove identical duplicates
 
     if settings.save_results:
+        logger.debug("saving to yaml:")
+        for result in scraped_results:
+            logger.debug(str(result))
         save_to_yaml(scraped_results, settings.results_path)
 
     return scraped_results
@@ -275,25 +295,25 @@ def notify_if_changed(new_results, old_results, settings) -> None:
 
     for new in new_results:                 # check for new/changed listings
         if new not in old_results:
-            logger.info("NEW/CHANGED RESULT: " + str(new))
-            logger.info("Newest results (new_results): ")
+            logger.debug("NEW/CHANGED RESULT " + str(date.today()) + ": " + str(new))
+            logger.debug("Newest results (new_results): ")
             for result in new_results:
-                logger.info(result)
-            logger.info("Previously stored results (old_results): ")
+                logger.debug(result)
+            logger.debug("Previously stored results (old_results): ")
             for result in old_results:
-                logger.info(result)
+                logger.debug(result)
 
             new_posts.append(new)
 
     for old in old_results:                 # check for removed listings
         if old not in new_results:
-            logger.info("REMOVED RESULT: " + str(old))
-            logger.info("Newest results (new_results): ")
+            logger.debug("REMOVED RESULT " + str(date.today()) + ": " + str(old))
+            logger.debug("Newest results (new_results): ")
             for result in new_results:
-                logger.info(result)
-            logger.info("Previously stored results (old_results): ")
+                logger.debug(result)
+            logger.debug("Previously stored results (old_results): ")
             for result in old_results:
-                logger.info(result)
+                logger.debug(result)
 
             missing_posts.append(old)
 
@@ -302,28 +322,43 @@ def notify_if_changed(new_results, old_results, settings) -> None:
         logger.info("missing_posts detected: " + str(missing_posts))
 
     for i, new in enumerate(new_posts):     # find and handle changed posts (postID present in new & old inputs)
-        for old in old_results:
+        for j, old in enumerate(missing_posts):
             if new.get('postID') == old.get('postID'):
-                logger.info('POST UPDATED:')
-                logger.info(str(new) + " ->")
-                logger.info(str(old))
 
-                title, body = pretty_listing(new)
-                title = str("UPDATED: " + title)
+                logger.info('POST UPDATED:')
+                logger.info(str(old) + " ->")
+                logger.info(str(new))
+
+                title = str("UPDATED " + str(date.today()) + ": " + new.get("listTitle"))
+
                 if settings.notify_email:
                     send_email(
                         settings,
                         title,
-                        body,
+                        str(pretty_listing(old) + "\n\nUPDATED TO:\n\n" + pretty_listing(new)),
                         settings.email_recipients)
                     print("Email Sent!!!")
 
-                new_posts.pop(i)            # remove changed post from new_posts
+                site = new.get("postURL")
 
-    for new in new_posts:                   # handle new posts left in new_posts
-        title, body = pretty_listing(new)
+                if settings.open_browser:
+                    if uri_exists_stream(site):
+                        open_url(site)
+                    elif uri_exists_stream(site):  # try a second time, just to be sure
+                        open_url(site)
+                    else:
+                        print(str(site) + " is not a valid URL.")
+
+                new_posts.pop(i)            # remove changed post from new_posts
+                missing_posts.pop(j)
+
+    for new in new_posts:       # handle new posts left in new_posts
+
         logger.info('NEW POST DETECTED: ')
         logger.info(str(new))
+
+        title = str("NEW " + str(date.today()) + ": " + new.get("listTitle"))
+        body = pretty_listing(new)
 
         if settings.notify_email:
             send_email(
@@ -343,38 +378,31 @@ def notify_if_changed(new_results, old_results, settings) -> None:
             else:
                 print(str(site) + " is not a valid URL.")
 
-    for i, missing in enumerate(missing_posts):           # logic to avoid false removal notifications
-        for new in new_results:
-            if missing.get('postID') == new.get('postID'):
-                logger.info("changed post detected as missing, ignoring")
-                missing_posts.pop(i)
-
     for missing in missing_posts:           # handle removed posts
-        title, body = pretty_listing(missing)
-        title = str("REMOVED: " + str(datetime.now()) + title)
+
+        title = str("REMOVED " + str(date.today()) + ": " + new.get("listTitle"))
+        body = pretty_listing(missing)
+
         if settings.notify_email:
             send_email(
                 settings,
                 title,
                 body,
                 settings.email_recipients)
-            print("Email Sent!!!")
+            print(title + " - Email Sent")
 
     return
 
 
-def pretty_listing(listing, condensed=False) -> str:
+def pretty_listing(listing) -> str:
 
-    if condensed == True:
-        title =  str("Listing Title: " + listing["listTitle"])
-        body = str("URL: " + listing["postURL"])
-    else:
-        title =  str("Listing Title: " + listing["listTitle"])
-        body =   str("Price: " + listing["listPrice"] + "\n"
-                   + "Date: " + listing["listDate"] + "\n"
-                   + "URL: " + listing["postURL"] + "\n"
-                   + "Post ID: " + listing["postID"])
-    return title, body
+    body = str("Listing Title: " + listing["listTitle"] + "\n"
+               + "Price: " + listing["listPrice"] + "\n"
+               + "Date: " + listing["listDate"] + "\n"
+               + "URL: " + listing["postURL"] + "\n"
+               + "Post ID: " + listing["postID"])
+
+    return body
 
 
 def print_scrape_overview(searchstrings, cities, settings) -> None:
@@ -410,7 +438,7 @@ def searcher():
 
     args = parse_args()     # take in CLI arguments
 
-    if args.settings == 'settings.yaml':                # read in settings file
+    if args.settings == 'settings.yaml':        # read in settings file
         settings = SettingsParser('etc/settings.yaml')
         print("\nUsing settings file: etc/settings.yaml")
     else:
@@ -418,7 +446,7 @@ def searcher():
         settings = SettingsParser(path)
         print("\nUsing settings file: etc/" + args.settings)
 
-    settings.parse_settings()                           # parse settings
+    settings.parse_settings()       # parse settings
 
     configure_logger(settings)
 
@@ -429,7 +457,7 @@ def searcher():
     for prop in [a for a in dir(settings) if not a.startswith('__') and not callable(getattr(settings, a))]:
         logger.info(prop + " = " + str(eval('settings.%s' %prop)))
 
-    if settings.notify_email and settings.smtp_test:    # send test email, if enabled
+    if settings.notify_email and settings.smtp_test:        # send test email, if enabled
         logger.info("Sending test email to recipients in settings.txt")
         send_email(
             settings,
@@ -437,23 +465,26 @@ def searcher():
             str("Sending test notification email."),
             settings.email_recipients)
 
-    cities = get_citycodes_from_citylist(settings.cities, settings.rosetta_path)   # import list of cities from settings
+    if settings.cities:
+        cities = get_citycodes_from_citylist(settings.cities, settings.rosetta_path)   # import list of cities from settings
+    else:
+        cities = []
+
     states = settings.states
     if states:
         for state in states:
-            for city in get_citycodes_from_state(state, settings.rosetta_path):        # import list of states from settings
+            for city in get_citycodes_from_state(state, settings.rosetta_path):    # import list of states from settings
                 cities.append(city)     # append to list of cities
-    cities = list(set(cities))          # remove duplicates from final cities list
+    cities = list(set(cities))      # remove duplicates from final cities list
     logger.info("All CityURLs (duplicates removed): " + str(cities))
 
-    searchstrings = get_search_strings(settings.search_urls)    # import search URLs from settings
+    searchstrings = get_search_strings(settings.search_urls)        # import search URLs from settings
 
     print_scrape_overview(searchstrings, cities, settings)
 
-    config_handler.set_global(length=6, bar='blocks')   # set up progress bar - refreshed for each search
+    config_handler.set_global(length=6, bar='blocks')       # set up progress bar - refreshed for each search
 
-    # This loop is the meat of the program
-    with alive_bar(force_tty=True) as bar:
+    with alive_bar(force_tty=True) as bar:      # This loop is the meat of the program
         while True:
             newresults = scrape_and_save_results(cities, searchstrings, settings, bar)
             if oldresults:

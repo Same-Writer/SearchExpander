@@ -10,6 +10,8 @@ def send_email(settings, subject_input, body_input, email_input):
     s.starttls()
     s.login(settings.smtp_addr, settings.smtp_pw)
 
+    body_input = str("Listing information below. \n" + body_input + "\n Thanks for using CLNotifier!")
+
     # For each contact, send the email:
     for email in email_input:
 
